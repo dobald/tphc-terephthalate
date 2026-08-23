@@ -1,0 +1,8 @@
+compound,role,class,hmdb,heavy_atoms,torsions,gasteiger_charge,mean_affinity_kcal_mol,sd,converged,best_affinity,ligand_efficiency,delta_vs_target_kcal,delta_LE_vs_target,exhaustiveness,replicate_scores
+terephthalic_acid,TARGET,TARGET,HMDB0002428,12,2,-0.840,-8.057,0.013,True,-8.068,0.6714,0.000,0.0000,64,-8.07;-8.05;-8.06;-8.06;-8.04
+homophthalic_acid,STRUCTURAL PROBE (not a metabolite),structural_probe,NONE,13,3,-0.922,-7.483,0.075,True,-7.556,0.5756,0.574,0.0958,64,-7.56;-7.51;-7.53;-7.46;-7.36
+hippuric_acid,urinary metabolite,physiological,HMDB0000714,13,3,-0.871,-7.099,0.007,True,-7.105,0.5461,0.958,0.1254,64,-7.10;-7.10;-7.10;-7.11;-7.09
+paba,para-substituted,physiological,HMDB0001392,10,2,-0.831,-6.838,0.007,True,-6.849,0.6838,1.219,-0.0124,64,-6.85;-6.84;-6.84;-6.83;-6.83
+benzoic_acid,single carboxylate,physiological,HMDB0001870,9,1,-0.606,-6.754,0.008,True,-6.762,0.7505,1.303,-0.0790,64,-6.76;-6.76;-6.75;-6.75;-6.76
+tyrosine,proteinogenic AA,physiological,HMDB0000158,13,5,-1.205,-6.508,0.017,True,-6.533,0.5006,1.550,0.1709,128,-6.50;-6.49;-6.50;-6.51;-6.53
+phenylalanine,proteinogenic AA,physiological,HMDB0000159,12,4,-0.969,-6.035,0.021,True,-6.064,0.5029,2.022,0.1685,128,-6.03;-6.01;-6.05;-6.06;-6.02

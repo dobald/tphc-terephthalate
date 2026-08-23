@@ -1,0 +1,29 @@
+# Core structural biology
+biopython>=1.81
+py3Dmol
+requests
+numpy
+
+# Variant design (ProteinMPNN via ColabDesign)
+git+https://github.com/sokrypton/ColabDesign.git
+
+# Note: the following are NOT pip-installable and must be handled separately:
+# - Open Babel: install via system package manager / conda
+#     Windows: conda install -c conda-forge openbabel  (into a dedicated
+#              env with python<=3.12 — Open Babel does not yet support 3.13+)
+#     macOS:  brew install open-babel
+#     Ubuntu: sudo apt-get install openbabel
+#   Confirm binary path afterward (`where obabel` / `which obabel`) and
+#   update the OBABEL constant in scripts/setup.py accordingly — do NOT
+#   assume /usr/bin/obabel as on the old Colab environment.
+#
+# - AutoDock Vina: pip install fails on Windows (no prebuilt wheel, tries
+#   to compile from source and errors on "Failed to build 'vina'").
+#   Install via conda instead:
+#     conda install -c conda-forge vina
+#   (fallback channel if that fails: conda install -c conda-forge -c ccsb-scripps vina)
+#   Verify with: python -c "from vina import Vina; print('vina OK')"
+#
+# - FoldX: download manually from https://foldxsuite.crg.eu under academic
+#   license, place the binary in external_tools/foldx/. Cannot be pip-installed
+#   or fetched automatically.

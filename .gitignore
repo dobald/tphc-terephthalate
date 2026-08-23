@@ -1,0 +1,62 @@
+# =============================================================
+# LICENSE-RESTRICTED BINARIES AND DATA — NEVER COMMIT
+# =============================================================
+# FoldX is distributed under an academic licence that forbids
+# redistribution. The binary is foldx.exe at external_tools/ root
+# (NOT external_tools/foldx/, which is an empty directory).
+external_tools/
+rotabase.txt
+molecules/
+*.foldx
+
+# =============================================================
+# LARGE REGENERABLE OUTPUT
+# =============================================================
+# Docking poses (~47 MB) and FoldX-threaded variants (~9 MB).
+# All reproducible from scripts/ — see README.
+results/docking/
+results/foldx/
+results/foldx_holo/
+results/ph_stability/
+results/ligandmpnn/
+results/*.log
+results/raw_poses/
+Unrecognized_molecules.txt
+
+# =============================================================
+# DOWNLOADED STRUCTURES — regenerable from RCSB
+# =============================================================
+data/*.pdb
+data/*.pdbqt
+data/metabolites/*.sdf
+data/metabolites/*.pdbqt
+
+# EXCEPTION: the ESMFold prediction is NOT regenerable. It was
+# recovered from a py3Dmol viewer output embedded in the Week 1
+# notebook and exists nowhere else. It must be committed.
+!data/esmfold_prediction.pdb
+
+# =============================================================
+# Python
+# =============================================================
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor cruft
+.DS_Store
+.vscode/
+*.swp
+
+# Secrets
+.env
+
+# Local Claude Code settings
+.claude/

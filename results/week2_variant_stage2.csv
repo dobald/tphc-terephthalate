@@ -1,0 +1,10 @@
+variant,mutations,foldx_ddg,terephthalic_acid,homophthalic_acid,benzoic_acid,paba,hippuric_acid,phenylalanine,tyrosine,margin_vs_hippurate,closest_decoy,closest_decoy_score
+ss13,N126R/N205G/F252V,0.058,-6.493,-5.959,-5.610,-5.489,-4.595,-5.934,-6.134,1.898,tyrosine,-6.134
+ss25,N126M/N205G/F252H,3.325,-5.551,-6.331,-4.954,-5.433,-4.470,-5.985,-6.146,1.081,homophthalic_acid,-6.331
+ss08,N205G/F252V,2.788,-6.577,-6.812,-5.962,-5.121,-5.638,-6.889,-6.453,0.940,phenylalanine,-6.889
+ss12,N126L/N205G/F252V,0.261,-5.316,-5.824,-5.369,-5.684,-4.388,-6.324,-6.343,0.928,tyrosine,-6.343
+ss09,N126R/N205G/F252I,1.123,-6.499,-7.080,-5.602,-6.139,-5.631,-5.830,-5.981,0.868,homophthalic_acid,-7.080
+ss10,N126Q/N205G/F252I,2.125,-6.729,-6.950,-5.343,-6.091,-5.973,-6.830,-6.395,0.756,homophthalic_acid,-6.950
+ss22,N126Q/F252I,2.108,-6.713,-7.123,-6.184,-5.694,-6.120,-6.059,-6.682,0.593,homophthalic_acid,-7.123
+WT_Repair,WT,0.000,-7.200,-6.818,-5.936,-6.001,-6.616,-5.455,-5.839,0.584,homophthalic_acid,-6.818
+ss29,N126M/N205G/F252E,5.702,-6.285,-6.272,-5.353,-5.691,-5.751,-6.640,-6.874,0.534,tyrosine,-6.874
