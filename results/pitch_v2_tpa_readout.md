@@ -32,8 +32,11 @@ lysosomal lumen, and photobleaching. Only detecting a cleavage product
 distinguishes true ester hydrolysis from all of them.
 
 **Terephthalate is the analyte that settles it.** It is the terminal product of
-PET depolymerisation, it cannot arise from an intact polymer, and it is not a
-normal constituent of the human metabolome at these levels.
+PET depolymerisation and it cannot arise from an intact polymer — cleavage is
+the only route to it. It *is* a registered human metabolite (HMDB0002428),
+detectable in urine largely as a consequence of environmental PET exposure, so
+the readout needs a vehicle-only baseline rather than an assumption of zero
+background. In cultured cells that baseline should be low and measurable.
 
 ---
 
@@ -141,26 +144,56 @@ While working on this I built a computational selectivity benchmark for TphC
 |---|---|
 | Error on the true ligand (TPA, Kd 0.364 µM) | **+0.73 kcal/mol** — accurate |
 | Experimentally non-binding compounds scored as credible binders | **6 of 6** (implied Kd 3–38 µM) |
-| True selectivity margin understated by | **2.8–4.1 kcal/mol** (reported ~3×; truth >275×) |
+| True selectivity margin understated by | **2.8–4.1 kcal/mol** (reported ~3×; ≥275× if the non-binders sit above 100 µM, ≥2,700× if above 1 mM — the screen reports no binding rather than a bound, so this is a floor set by the detection limit, not a measured ratio) |
 
-**Test 2 — affinity ranking** (6 compounds with ITC Kd, spanning 2,389×):
+**Test 2 — affinity ranking** (6 compounds with ITC Kd, spanning 2,389×). The
+headline number is the range, not a correlation:
 
-| | |
-|---|---|
-| Experimental ΔG range | 4.61 kcal/mol |
-| Vina score range | **0.71 kcal/mol — 15% of it** |
-| Spearman ρ vs measured affinity | **−0.03** |
-| Vina vs heavy-atom count | **r = −0.878** |
-| Vina vs experimental ΔG | r = −0.211 |
+| | Vina | Vinardo |
+|---|---|---|
+| Experimental ΔG range | 4.61 kcal/mol | 4.61 kcal/mol |
+| **Score range** | **0.71 — 15% of it** | **0.78 — 17% of it** |
+| Error on the true ligand | +0.73 kcal/mol | **+2.96 kcal/mol** |
+| Aliphatic non-binder controls | correctly rejected | correctly rejected |
+| A far weaker binder outscoring TPA | 2,389× weaker, by 0.66 | 250× weaker, by 0.61 |
 
-The second test is the more damning: **the scoring function tracks ligand size
-four times more strongly than the affinity it is meant to predict**, and in this
-series size and affinity are anti-correlated — so following size drives the
-ranking away from truth. The 2,389×-weaker binder outscored the true ligand.
+**Neither function can express the affinity difference it is being asked to
+rank.** A 2,389-fold spread in measured Kd compresses into under 0.8 kcal/mol
+of score. That is a directly measured quantity, and it is what makes the Week 2
+design campaign — which ranked variants on differences of 0.2–1.9 kcal/mol —
+unsalvageable.
 
-Both non-binder controls (aliphatic dicarboxylates) were correctly rejected,
-which locates the failure precisely: Vina discriminates on **gross shape and
-buried surface**, not on the specific polar recognition that sets affinity.
+What both functions *do* get right is scaffold: the aliphatic dicarboxylate
+controls are cleanly rejected by both. **Gross shape and buried surface are
+discriminated; the specific polar recognition that sets affinity is not.**
+
+⚠️ **Two things I want to state against my own interest**, because I got them
+wrong in an earlier draft of this document:
+
+- **The correlations are underpowered and I should not have led with them.**
+  At n = 6, only one of ten correlations I computed clears p < 0.05 (Vina vs
+  heavy-atom count, p = 0.021), and that one collapses to p = 0.201 if I drop
+  the single ligand outside the 12–14 heavy-atom band. A Spearman needs
+  |ρ| > 0.886 at this n to register at all. My "ρ = −0.03, no correlation with
+  affinity" is a *failure to detect*, not a demonstration of absence. The range
+  compression carries the same conclusion and does not depend on n.
+- **None of this is a new phenomenon.** Docking-score bias toward molecular
+  size, weak affinity correlation, and disagreement between scoring functions
+  are all documented — the last is the founding premise of the consensus-scoring
+  literature. I asserted novelty before searching, which is the same mistake
+  that produced the error this section is about.
+
+**What I think is still worth something** is not the phenomenon but the worked
+example: a fully documented pipeline scored against the 61-compound
+experimental panel from the very paper that produced the structure I docked
+into, with the failure quantified end to end and the code public. Complete
+ground truth of that kind is uncommon, and negative results with it rarely get
+written up.
+
+Both functions did correctly reject the aliphatic non-binder controls, which
+locates the surviving capability precisely: empirical scoring discriminates
+**gross shape and buried surface**, not the specific polar recognition that sets
+affinity.
 
 The error is **asymmetric** — accurate on the real binder, badly over-predicting
 non-binders — and the reason appears structural. An empirical scoring function
@@ -171,14 +204,20 @@ cannot express is that the **second, para carboxylate is obligatory**, because
 TphC is a two-point recognition device and a one-point ligand fails regardless of
 how well its single point fits.
 
-I suspect this generalises to other two-point-recognition sites, and that the
-signature is diagnostic: a compressed score distribution in which everything
-ligand-shaped lands within 1–2 kcal/mol of the target.
+I offer this as a hypothesis, not a result: it may generalise to other
+two-point-recognition sites, with a diagnostic signature of a compressed score
+distribution in which everything ligand-shaped lands within 1–2 kcal/mol of the
+target. I have one target and cannot test that here.
 
 A second, smaller result from the same work: **ESMFold reproduced the apo/open
-TphC structure to 0.92–1.09 Å while missing the closed state by 4.014 Å** — it
-predicted the wrong conformational *state*, accurately, and **pLDDT gave no
-warning** (r = −0.26 against per-residue error; mean pLDDT 91 while 4 Å out).
+TphC structure to 0.92–1.09 Å across all six chains while missing the closed
+state by 4.014 Å** — it predicted the wrong conformational *state*, accurately,
+and **pLDDT gave no warning** (r = −0.26 against per-residue error; mean pLDDT
+91 while 4 Å out). This one is well powered — 294 residues, six chains — but it
+is also not new: AlphaFold2's bias toward apo conformations is documented, and
+the published examples include D-allose and D-ribose binding proteins, the same
+periplasmic-binding-protein fold family as TphC. What I can offer is a clean,
+reproducible instance with both crystal states resolved by the same authors.
 
 Both are documented and reproducible. If either is useful to you, it is yours.
 
@@ -209,6 +248,17 @@ Both are documented and reproducible. If either is useful to you, it is yours.
   experimental data shows it is sharply selective. I found that by checking my
   work against the literature, and I have written it up rather than quietly
   dropping it, but you should weigh my predictions accordingly.
+- **The docking benchmark is underpowered, and I originally reported it as
+  though it were not.** n = 6; one of ten correlations reaches p < 0.05, and it
+  rests on a single ligand. The range compression is the part that holds. I
+  found this by auditing my own write-up and have corrected it in place rather
+  than reissuing the numbers quietly.
+- **Neither methodological finding is a new phenomenon**, and I claimed novelty
+  for one of them before searching for prior art — the same failure mode as the
+  selectivity error above, repeated. Scoring-function size bias, weak affinity
+  correlation, cross-function disagreement, structure-predictor apo bias and
+  cpGFP pH sensitivity are all documented. What I have is a worked case study,
+  not a discovery, and I would rather say so than have you find it.
 - TPAsense is not my work. My contribution would be its application, not the
   sensor.
 - I have not verified whether any TphC-based sensor tolerates lysosomal pH or

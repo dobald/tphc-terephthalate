@@ -66,6 +66,20 @@ monocarboxylates; homophthalate is a regioisomer-type.
 low-micromolar — it predicts each of these would bind roughly as well as the
 real ligand.
 
+> ⚠️ **Caveat added 2026-08-29 — the "implied Kd" column is illustrative, not a
+> prediction.** Converting a Vina score to a Kd via `exp(ΔG/RT)` treats the
+> score as a calibrated free energy, and the central finding of this project is
+> that it is not one (`week3_kd_benchmark.md`: 15% of the experimental dynamic
+> range). Using the conversion here and refuting it there is inconsistent, and a
+> computational-chemistry reader will say so.
+>
+> **The column is kept because the argument does not depend on it.** The
+> defensible statement is ordinal: *Vina ranked six experimental non-binders
+> within 0.6–2.0 kcal/mol of the true ligand, i.e. inside its own resolution.*
+> That is a false-positive count, and it holds whatever the scores mean in
+> absolute terms. Read the µM values as "what a user of this pipeline would have
+> concluded," not as our estimate of the true affinities.
+
 ### Net effect on the selectivity claim
 
 | | Margin | Fold |

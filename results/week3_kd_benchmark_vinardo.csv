@@ -1,0 +1,9 @@
+compound,kd_um,experimental_dg,vina_mean,vina_sd,error,heavy_atoms,is_binder
+terephthalate,0.364,-8.783,-5.827,0.007,2.957,12,True
+2-hydroxyterephthalate,1.246,-8.054,-6.183,0.003,1.871,13,True
+"2,5-dihydroxyterephthalate",1.931,-7.795,-5.779,0.003,2.016,14,True
+"2,5-pyridinedicarboxylate",90.9,-5.513,-6.444,0.042,-0.931,12,True
+2-aminoterephthalate,119.9,-5.349,-5.669,0.003,-0.320,13,True
+"2,6-naphthalenedicarboxylate",869.6,-4.175,-5.798,0.006,-1.623,16,True
+"trans,trans-muconate",,,-5.357,0.002,,10,False
+adipate,,,-5.123,0.006,,10,False

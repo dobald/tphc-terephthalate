@@ -4,6 +4,50 @@
 **Reproduce:** `python -m scripts.kd_benchmark --fetch`, then
 `python -m scripts.kd_benchmark --replicates 3 --exhaustiveness 64`
 
+> ## CORRECTION (2026-08-20, extended 2026-08-29) — read before quoting anything below
+>
+> Two audits have narrowed this document. Details:
+> `results/week3_scoring_crosscheck.md`; reproduce with
+> `python -m scripts.power_audit`.
+>
+> **① Reproduces under a second scoring function.** Range compression (15% vina
+> / 17% vinardo), no correlation with measured affinity (Pearson vs ΔG: −0.211
+> / **+0.018**), correct rejection of the aliphatic non-binder controls, and a
+> far-weaker binder outscoring the true ligand (under vinardo:
+> 2,5-pyridinedicarboxylate, 250× weaker, −6.44 vs terephthalate −5.83).
+>
+> **② "Vina is a size detector" — NARROWED TWICE.**
+> *To Vina alone:* vinardo shows r = +0.445 (p = 0.377) against heavy-atom
+> count — no size correlation, so the mechanism belongs to Vina's weighting,
+> not to empirical scoring generally. State this as an **absence** in vinardo,
+> not as a reversal; at p = 0.377 the positive sign is not supportable either.
+> *To one compound:* dropping 2,6-naphthalenedicarboxylate — the only ligand
+> outside 12–14 heavy atoms — takes Vina's r from −0.878 to **−0.686
+> (p = 0.201)**. Five of six ligands span 12–14 HA, so the size axis is one
+> point wide plus an outlier, and that outlier carries the correlation. It is
+> also significant in Pearson but **not** in Spearman (−0.647, p = 0.165).
+>
+> **③ Statistical power: only ONE correlation in this file clears p < 0.05** —
+> Vina vs heavy-atom count (p = 0.021). At n = 6, Pearson needs |r| > ~0.811
+> and Spearman needs |ρ| > ~0.886, so the design can only detect a near-perfect
+> rank order. Every ρ and r below is a point estimate from six observations.
+> **Spearman ρ = −0.03 is not evidence of no relationship; it is failure to
+> detect one.** The range compression is the stronger evidence for the same
+> conclusion, because it is measured directly.
+>
+> **④ Prior art (checked 2026-08-29): the phenomenon is known.** Docking-score
+> bias toward molecular size is documented — see
+> [Unbiasing Scoring Functions, *JCIM*](https://pubs.acs.org/doi/abs/10.1021/ci600471m),
+> and benchmarks over 2,000+ complexes where affinity correlations rarely exceed
+> r ≈ 0.60. **This is a case study reproducing a known failure mode on a target
+> with unusually good ground truth — not a new phenomenon.**
+>
+> **⑤ RETRACTED:** an earlier version of this banner promoted "Spearman between
+> the two functions is only +0.143, the rank order is close to arbitrary" as a
+> new and stronger result. It is p = 0.787 with a 95% CI of [−0.756, +0.855],
+> and cross-program rank disagreement is the founding premise of the
+> consensus-scoring literature. Do not cite it.
+
 > ## Headline
 >
 > **No — and it is worse than "no."**
@@ -12,10 +56,12 @@
 > scores span **0.71 kcal/mol**. It captures **15% of the experimental dynamic
 > range**, with Spearman ρ = **−0.03**.
 >
-> **What it does track is ligand size: r = −0.878 with heavy-atom count, versus
-> r = −0.211 with measured affinity.** In this series, larger ligands actually
-> bind *worse* (r = +0.520 between size and ΔG) — so Vina follows the wrong
-> variable, and follows it well.
+> **What Vina does track here is ligand size: r = −0.878 with heavy-atom count
+> (p = 0.021), versus r = −0.211 with measured affinity.** In this series,
+> larger ligands actually bind *worse* (r = +0.520 between size and ΔG) — so
+> Vina follows the wrong variable. ⚠️ **But see correction ②:** this is the only
+> correlation in the file that reaches significance, it rests on a single
+> out-of-range ligand, and vinardo does not reproduce it.
 >
 > The 2,389×-weaker binder outscored the true ligand by 0.66 kcal/mol.
 
@@ -50,7 +96,7 @@ Experimental ΔG = RT·ln(Kd) at 298 K.
 | 2,5-dihydroxyterephthalate | 1.931 | −7.79 | −8.39 | −0.59 | 14 |
 | 2,5-pyridinedicarboxylate | 90.9 | −5.51 | −8.03 | **−2.52** | 12 |
 | 2-aminoterephthalate | 119.9 | −5.35 | −8.01 | **−2.66** | 13 |
-| 2,6-naphthalenedicarboxylate | 869.6 | −4.18 | **−8.72** | **−4.54** | 16 |
+| 2,6-naphthalenedicarboxylate | 869.6 | −4.17 | **−8.72** | **−4.54** | 16 |
 
 | Metric | Value |
 |---|---|
@@ -76,10 +122,22 @@ right on the true ligand and progressively over-predicts everything else.
 
 (Vina scores are negative, so negative r vs size means bigger → better score.)
 
-**Vina is a size detector on this series.** It correlates four times more
-strongly with atom count than with the affinity it is meant to predict. And
-because size and affinity are *anti*-correlated here (+0.520), tracking size
-actively drives the ranking away from the truth.
+**Vina behaves like a size detector on this series.** It correlates four times
+more strongly with atom count than with the affinity it is meant to predict.
+And because size and affinity are *anti*-correlated here (+0.520), tracking
+size drives the ranking away from the truth.
+
+⚠️ **Three qualifications, all added 2026-08-29 (correction ② above):**
+
+| | |
+|---|---|
+| Confined to Vina | vinardo: r = +0.445, p = 0.377 — no size correlation. Not a property of empirical scoring generally. |
+| Confined to one compound | drop 2,6-naphthalenedicarboxylate → r = −0.686, p = 0.201. Five of six ligands span 12–14 HA. |
+| Pearson only | Spearman = −0.647, p = 0.165. The rank-based test does not see it — the signature of leverage, not a monotone trend. |
+
+The claim to make is **"on this panel, Vina's scores tracked heavy-atom count
+better than affinity"** — an observation about six ligands, not a mechanism
+established for the scoring function.
 
 2,6-naphthalenedicarboxylate makes the point on its own: 16 heavy atoms, the
 best Vina score in the panel (−8.72), and the **weakest measured binder at
@@ -143,11 +201,20 @@ was never evidence for ranking.
 
 ## Honest limitations
 
-- **n = 6 binders.** Small. But the compression (15% of range) and the size
-  correlation (r = −0.878) are large effects, and the conclusion does not rest
-  on a marginal p-value.
-- One protein, one scoring function. Whether this generalises is a hypothesis,
-  not a demonstration — though the mechanism suggests where to look.
+- **n = 6 binders, and this is the binding constraint on the whole analysis.**
+  An earlier version of this section claimed "the conclusion does not rest on a
+  marginal p-value." That was wrong: every correlation here except one has
+  p > 0.16, and the exception (r = −0.878, p = 0.021) is carried by a single
+  ligand. **What does not depend on n is the range compression** — 0.71 kcal/mol
+  of score across 4.61 kcal/mol of measured affinity is a directly observed
+  quantity, and it is the number to lead with.
+- **Heavy-atom range 12–16, with five of six ligands inside 12–14.** The panel
+  cannot separate size effects from compound identity.
+- One protein, one receptor conformer. The vinardo control (2026-08-20) added a
+  second scoring function; `ad4`, `smina`, `gnina` remain untested.
+- **Not a novel phenomenon.** Scoring-function size bias and poor affinity
+  correlation are documented in the docking literature. The contribution is a
+  worked case study against unusually complete experimental ground truth.
 - ITC ΔG and docking scores are not strictly the same quantity (ITC includes
   solvation and entropic terms Vina approximates crudely). That is part of the
   point, not a confound.

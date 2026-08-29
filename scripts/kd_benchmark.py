@@ -108,7 +108,7 @@ def fetch_panel():
     return 0
 
 
-def dock_panel(replicates=3, exhaustiveness=64):
+def dock_panel(replicates=3, exhaustiveness=64, scoring=None):
     from scripts.docking import (OBABEL, _run, native_ligand_center,
                                  parse_vina_scores, run_vina, vina_available,
                                  RECEPTOR_PDBQT, DOCKING_DIR)
@@ -136,9 +136,11 @@ def dock_panel(replicates=3, exhaustiveness=64):
               "--partialcharge", "gasteiger"])
         scores = []
         for seed in [11, 22, 33, 44, 55][:replicates]:
-            out = os.path.join(work, f"{key}_s{seed}.pdbqt")
+            tag_s = f"_{scoring}" if scoring else ""
+            out = os.path.join(work, f"{key}{tag_s}_s{seed}.pdbqt")
             so = run_vina(center, receptor=rigid, ligand=pdbqt, out=out,
-                          seed=seed, exhaustiveness=exhaustiveness, flex=flex)
+                          seed=seed, exhaustiveness=exhaustiveness, flex=flex,
+                          scoring=scoring)
             p = parse_vina_scores(so)
             if not p:
                 raise RuntimeError(f"no score for {key} seed {seed}")
@@ -159,7 +161,7 @@ def dock_panel(replicates=3, exhaustiveness=64):
     return rows
 
 
-def analyse(rows):
+def analyse(rows, scoring=None):
     binders = [r for r in rows if r["kd_um"] is not None]
     nonb = [r for r in rows if r["kd_um"] is None]
 
@@ -227,8 +229,10 @@ def analyse(rows):
     print(f"  {vina_range:.1f} kcal/mol -- the compression seen in the Day 7 panel is")
     print("  a general property here, not an artefact of that particular decoy set.")
 
-    os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
-    with open(OUT_CSV, "w", newline="") as f:
+    out_csv = (OUT_CSV.replace(".csv", f"_{scoring}.csv")
+               if scoring else OUT_CSV)
+    os.makedirs(os.path.dirname(out_csv), exist_ok=True)
+    with open(out_csv, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["compound", "kd_um", "experimental_dg", "vina_mean", "vina_sd",
                     "error", "heavy_atoms", "is_binder"])
@@ -247,8 +251,11 @@ if __name__ == "__main__":
     p.add_argument("--fetch", action="store_true")
     p.add_argument("--replicates", type=int, default=3)
     p.add_argument("--exhaustiveness", type=int, default=64)
+    p.add_argument("--scoring", default=None,
+                   choices=["vina", "vinardo"],
+                   help="cross-check with a different scoring function")
     a = p.parse_args()
     if a.fetch:
         sys.exit(fetch_panel())
-    rows = dock_panel(a.replicates, a.exhaustiveness)
-    sys.exit(analyse(rows) if isinstance(rows, list) else rows)
+    rows = dock_panel(a.replicates, a.exhaustiveness, a.scoring)
+    sys.exit(analyse(rows, a.scoring) if isinstance(rows, list) else rows)
