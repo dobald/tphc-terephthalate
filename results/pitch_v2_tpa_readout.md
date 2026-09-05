@@ -14,6 +14,12 @@
 > Retained deliberately as a record of superseded reasoning — the second pitch
 > in this project to assert a gap before searching for it. See CLAUDE.md §3
 > item 4d. What survived the sweep became the v3 crystallinity framing.
+>
+> **One factual correction has been applied in place** (the TPAsense patent
+> citation, under "The proposed readout"). The wrong text is struck through
+> rather than deleted, so the record of what was believed is intact. The
+> *reasoning* in this document is never updated — only outright factual errors
+> that would mislead someone who cites from it.
 
 *(The first pitch, `week3_day14_collaboration_pitch.md`, is archived on the same
 principle — do not edit it either.)*
@@ -59,7 +65,21 @@ background. In cultured cells that baseline should be low and measurable.
 A protein biosensor for terephthalate already exists and is well characterised:
 **TPAsense** — the solute-binding protein TphC with circularly permuted GFP
 inserted (TphC-iV283–sf-cpGFP), Kd **99 nM**, ΔF/F −0.45, Tm 59 °C
-(bioRxiv 2026; patent US 12281353).
+~~(bioRxiv 2026; patent US 12281353)~~.
+
+> ⚠️ **FACTUAL CORRECTION 2026-09-05 — the struck-through citation above is
+> wrong, and is left visible deliberately.**
+> **US 12281353 is not TPAsense's patent.** It covers a TphR
+> transcription-factor biosensor from a different group (Jha, Dale, Bermel,
+> Neidle; Triad National Security / University of Georgia) — TphR plus a
+> separate sfGFP under a modified promoter, for bacterial hosts.
+> **Correct citation:** Scherer M, Wenger P, Gagsteiger A, Turak O, Höcker B,
+> *bioRxiv* 2026, doi 10.64898/2026.04.03.716257 (CC-BY-NC-ND). No patent is
+> known for TPAsense; its IP status was never checked.
+> Two further errors in the numbers above: the paper reports **four** variants,
+> and this cites the weakest. TPAsense3.2 gives **ΔF/F₀ +3.15** (7× larger,
+> positive-going) at **K_D 203 nM**, TphC T_M 62 °C.
+> See `results/tpasense_construct_facts.md`.
 
 Its specificity is exactly what this application needs. The parent protein was
 screened against 61 compounds by DSF/ITC: it binds only six-membered
