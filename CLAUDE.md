@@ -398,13 +398,40 @@ truth of that kind is uncommon and negative results with it rarely get written
 up. That is the contribution; the phenomena are not.
 
 **2. A cpGFP sensor cannot work in the phagolysosomal lumen.**
-`python -m scripts.sensor_ph_analysis`. cpGFP reports *via* chromophore
-protonation (GCaMP6m pKa 8.01→7.10 on binding); permutation raises pKa; reported
-sensors cluster pKa 7–8. Across pKa 6.0–8.0, pH 7.4→5.0 costs **11–201×
-brightness** vs a 1.8× analyte signal — **artefact is 6–111× the signal**. At
-pKa 7.1: **0.8% brightness in lumen vs 56% in cytosol**. Not calibratable:
-same direction as signal; **TPA release itself acidifies the compartment** so the
-confound correlates with the measurand; and the PEI buffer shifts baseline.
+`python -m scripts.sensor_ph_analysis` (original) and
+**`python -m scripts.sensor_pka_test` (2026-09-05, supersedes it)**.
+cpGFP reports *via* chromophore protonation (GCaMP6m pKa 8.01→7.10 on binding);
+permutation raises pKa — confirmed in the literature, "all circular permutants
+thus far investigated have higher pKas than their non-permuted counterparts."
+
+⚠️ **`sensor_ph_analysis.py` IS STALE: it hardcodes ΔF/F₀ = −0.45**, which is
+TPAsense2, the weakest variant. TPAsense3.2 gives **+3.15** (§3 item 4). Its
+"artefact is 6–111× the signal" framing also compares quantities in different
+units. Use `sensor_pka_test.py` instead.
+
+**THE BETTER TEST — how big a pH shift forges a full saturating TPA response?**
+Brightness follows F/Fmax = 1/(1+10^(pKa−pH)); solve for the ΔpH that reproduces
+the analyte fold-change. With TPAsense3.2 (4.15×):
+
+| Compartment | ΔpH that forges the whole signal |
+|---|---|
+| **Phagolysosome (pH 5.0)** | **0.62–0.78 units at EVERY pKa 6.0–8.0** |
+| **Cytosol (pH 7.2)** | **impossible for pKa ≤ 7.5**; 0.92 units at pKa 8.0 |
+
+In cytosol the chromophore is already too deprotonated for pH to deliver 4.15×
+at all (max achievable gain: 1.06× at pKa 6.0, 1.79× at pKa 7.1, 3.00× at 7.5).
+
+**✅ THE DECISION IS pKa-INDEPENDENT.** Lumen is compromised at every pKa;
+cytosol is safe at every pKa — either pH cannot reach the signal, or the shift
+needed (0.92) is ~5× normal cytosolic regulation (±0.1–0.2). Measuring the pKa
+would sharpen the numbers but **cannot flip the decision** — which is the useful
+thing to know, since nobody has measured it. Do not treat the missing pKa as a
+blocker.
+
+⚠️ Caveat carried in the script: it treats brightness as a pure protonation
+titration and the analyte response as pH-independent. In real cpGFP sensors
+ligand binding SHIFTS the pKa, so the two are coupled. Modelling that needs the
+apo and bound pKa values — exactly what is unpublished.
 **→ sense exported TPA in cytosol/medium.**
 
 **3. Acid destabilisation is real but not limiting.**
@@ -798,7 +825,9 @@ tphc-project/
 │   ├── scoring_crosscheck.py    vina vs vinardo, scale-invariant metrics ★
 │   ├── power_audit.py           p-values, CIs, jackknife, permutation baseline ★
 │   ├── conformer_control.py     open/apo 7NDR control vs closed 7NDS ★
-│   └── make_figures.py          Figures 1-4 for the preprint ★
+│   ├── make_figures.py          Figures 1-4 for the preprint ★
+│   ├── sensor_design.py         TPAsense annotation + mammalian construct ★
+│   └── sensor_pka_test.py       pKa robustness: the decision is pKa-free ★
 ├── results/
 │   │  ── THE ONES THAT MATTER ──
 │   ├── week3_docking_vs_experiment.md    ★ 6/6 false positives; the core finding
