@@ -299,7 +299,7 @@ Everything below is settled; do not re-open without new evidence.
 | Question | Answer | Where |
 |---|---|---|
 | Does WT TphC bind TPA specifically? | **Yes** — Kd 0.364 µM; monocarboxylates, regioisomers, esters, aliphatic diacids all fail to bind (61-compound DSF/ITC screen) | `week3_docking_vs_experiment.md` |
-| Can TphC transduce a signal? | **Yes** — TPAsense: TphC-iV283–sf-cpGFP, ΔF/F −0.45, Kd 99 nM, Tm 59 °C. Patent US 12281353 | `week3_prior_art_check.md` |
+| Can TphC transduce a signal? | **Yes** — TPAsense (Höcker lab, bioRxiv 2026): TphC-iV283–sf-cpGFP. **Best variant is TPAsense3.2: ΔF/F₀ +3.15, K_D 203 nM** — NOT the −0.45 / 99 nM variant this project used. ⛔ **US 12281353 is NOT this patent** — see `tpasense_construct_facts.md` | `tpasense_construct_facts.md` |
 | Can TphC bind PET itself? | **No** — esters do not bind | `week3_architecture_analysis.md` |
 | Is a better binder needed? | **No** — 0/30 designed variants beat WT, correctly | `week2_day10_master_ranking.md` |
 | Is recognition the bottleneck? | **No** — Tim4; uptake already efficient; particles suppress efferocytosis | `week3_architecture_analysis.md` |
@@ -808,6 +808,7 @@ tphc-project/
 │   ├── pitch_v3_crystallinity.md         ★ ACTIVE PITCH — all edits go here
 │   ├── week3_kd_benchmark.md             ★ affinity ranking fails; see corrections
 │   ├── week3_scoring_crosscheck.md       ★ vinardo + power audit + prior art
+│   ├── tpasense_construct_facts.md      ★ TPAsense from source; 3 corrections
 │   ├── preprint_docking_case_study.md    ★ THE PREPRINT DRAFT — all edits here
 │   ├── week3_conformer_control.csv       ★ open/apo control, 3 chains
 │   │  ── superseded, kept for provenance ──

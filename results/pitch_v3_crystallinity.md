@@ -180,19 +180,27 @@ first so you can judge for yourself.
 *via* chromophore protonation — that is the mechanism, not a side effect
 (GCaMP6m's pKa shifts 8.01 → 7.10 on binding). Reported cpGFP-sensor pKa values
 cluster at 7–8. Scanning pKa 6.0–8.0, moving from pH 7.4 into a pH 5.0 lysosome
-costs **11–201× in brightness** against an analyte signal of 1.8× — the artefact
-is **6–111× the signal** across the whole plausible range.
+costs **11–201× in brightness**. Against TPAsense3.2's ΔF/F₀ of +3.15 the analyte
+signal is ~4.15× — still **3–48× smaller than the artefact** across the plausible
+pKa range, and worse for the −0.45 variants.
 
-It cannot be calibrated away: acidification and TPA binding both *decrease*
-fluorescence, so they are inseparable by sign; TPA release itself acidifies the
-compartment, so the confound correlates with the measurand; and the PEI proton
-buffer moves the baseline with capsule loading and batch.
+Two of the three reasons it cannot be calibrated away hold for every variant:
+**TPA release itself acidifies the compartment**, so the confound correlates
+with the measurand; and the **PEI proton buffer** moves the baseline with capsule
+loading and batch.
+
+*I previously gave a third reason — that artefact and signal are inseparable
+because both decrease fluorescence. That is true only of TPAsense1/2. The
+TPAsense3 variants report with a **positive** ΔF/F₀, so their signal opposes the
+pH artefact in sign. I am dropping that argument; the magnitude problem above is
+sufficient on its own.*
 
 **Acid destabilisation is real but not limiting.** FoldX gives TphC ΔG −63.2
 (pH 7.4) → −59.2 (pH 4.5), i.e. **+2.9 kcal/mol** at lysosomal pH, roughly 6 °C
-of Tm. From TPAsense's reported 59 °C that leaves ~53 °C — still folded at 37 °C.
-Proteolysis I cannot settle computationally; the sites that would worry me are
-the cpGFP fusion linkers, whose sequence is unpublished.
+of Tm. TPAsense3.2's TphC domain melts at 62 °C, leaving ~56 °C — comfortably
+folded at 37 °C. Proteolysis I cannot settle computationally; the sites that
+would worry me are the cpGFP fusion linkers — whose **sequences are published**
+(Supporting Table 1), so this is testable rather than speculative.
 
 Both point the same way: **sense the exported product, not the compartment.**
 
@@ -211,6 +219,15 @@ docked into:
 | Experimental non-binders scored as credible binders | **6 of 6** |
 | Experimental ΔG range vs Vina score range | 4.61 → 0.71 kcal/mol (**15% captured**) |
 | Same, under vinardo | 4.61 → 0.78 kcal/mol (**17%**) |
+
+**The single-conformer objection has been tested and rejected.** Re-docking the
+panel into three chains of the *open/apo* structure — solved by the same authors,
+never shaped around terephthalate — leaves the false positives intact, and there
+hippuric acid, a confirmed non-binder, **outscores the true ligand outright**
+(margins −0.19 to −0.61 kcal/mol). Removing the induced-fit pocket does not
+restore discrimination; it removes what discrimination there was. A by-product:
+rank order is **conformer-contingent** — same ligands, same protocol, TPA first
+on the closed structure and third on the open one.
 
 **The range compression is the number to look at**, because it is measured
 directly. I originally led with correlations instead; at n = 6 only one of ten
