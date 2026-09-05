@@ -311,36 +311,52 @@ Donald Phan · dnldphan@gmail.com · [GitHub/data link]
   and the characterisation, and no degradation system
 - Macrophage / microplastic immunology groups (efferocytosis, Tim4 uptake)
 
-### Cover-email skeleton — Höcker lab (short; this is NOT the collaboration ask)
+### Cover email — Höcker lab (FINAL; send this first, and separately)
 
-*Send this one first, and separately. It asks for two facts, not a project.*
+*This is not the collaboration ask. It is two questions and a disclosure.
+Send it before the pitches below — it does not depend on the preprint, and the
+disclosure is worth making promptly rather than in four months.*
 
-> Subject: TPAsense chromophore pKa, and a mammalian-expression design
+> **Subject:** TPAsense chromophore pKa, and a mammalian-expression design
 >
-> Dear Prof. Höcker,
+> Dear Professor Höcker,
 >
-> I have been working with TphC and read your TPAsense preprint closely enough
-> to annotate the construct against the 7NDS crystal sequence — the linker
-> assignments in Supporting Table 1 all reproduce, and the V283 insertion maps
-> cleanly once the +8 offset between your numbering and the crystal is applied.
+> I am an undergraduate working independently on TphC-based terephthalate
+> sensing. I read the TPAsense preprint closely enough to annotate the construct
+> against the 7NDS crystal sequence: the linker assignments in Supporting
+> Table 1 all reproduce, and V283 maps cleanly once the +8 offset to crystal
+> numbering is applied.
 >
-> Two things, neither of which needs anything from your bench beyond an answer:
+> I should say up front that I have drafted a mammalian-expression version of
+> TPAsense3.2 — His-tag removed, codon-optimised, cytosolic — for a project on
+> measuring intracellular PET degradation. Nothing has been synthesised. I would
+> rather tell you it exists than have you come across it.
 >
-> 1. Is TPAsense's chromophore pKa measured anywhere? It is the one parameter
->    I could not find, and it governs whether the sensor can be read in an
->    acidic compartment. My own analysis says the cytosol-versus-lysosome
->    decision holds across pKa 6.0–8.0 either way, so this is not blocking —
->    but a real number would replace a scan.
-> 2. Is anything filed on TPAsense? Your preprint is CC-BY-NC-ND and I could
->    not find a patent. I ask because I have drafted a mammalian-expression
->    version of TPAsense3.2 (tag removed, codon-optimised, cytosolic) for a
->    project measuring intracellular PET degradation. Nothing has been
->    synthesised, and I would rather tell you it exists than have you come
->    across it.
+> Two questions, both answerable in a line:
 >
-> Happy to send the annotation and the design if either is of use.
+> 1. Is TPAsense's chromophore pKa measured anywhere? It is the one parameter I
+>    could not find. My own analysis says the cytosol-versus-lysosome decision
+>    holds across pKa 6.0–8.0 either way, so it is not blocking me — but a
+>    measured value would replace a scan.
+>
+> 2. Is anything filed on TPAsense? The preprint is CC-BY-NC-ND and I found no
+>    patent, but I would rather ask than assume.
+>
+> Happy to send the annotation or the design if either is useful. Either way,
+> thank you for putting the full sequences in the supplement — it is rarer than
+> it should be.
 >
 > Donald Phan
+> dnldphan@gmail.com
+> [GitHub/data link]
+
+*Notes on sending, deliberately not in the email itself:*
+- *Get the address from the bioRxiv author block or the Bayreuth Biochemistry
+  page. Do not construct one from a guessed institutional pattern.*
+- *Attach nothing. Link the repository if you link anything.*
+- *Do not ask for the plasmid, and do not mention collaboration. The value of
+  this note is that it is neither.*
+- *One follow-up after ~3 weeks is fine. A second is not.*
 
 ### Cover-email skeleton — substrate control (the main ask)
 > Subject: A substrate control for intracellular PET degradation
