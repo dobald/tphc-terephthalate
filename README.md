@@ -170,7 +170,11 @@ screen, and the ITC values — is from **Gautom et al. 2021**, *Nat Commun*
 **12**:6244. This work would have no reference point without it.
 
 **TPAsense**, the TphC-based biosensor referenced in the current proposal, is
-not my work (bioRxiv 2026; patent US 12281353).
+not my work (Scherer et al., bioRxiv 2026, doi 10.64898/2026.04.03.716257,
+CC-BY-NC-ND). **Correction:** earlier versions of this README cited patent
+US 12281353 for TPAsense. That patent covers a different, TphR-based
+transcriptional biosensor from another group — see
+`results/tpasense_construct_facts.md`.
 
 ---
 
