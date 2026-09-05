@@ -446,8 +446,27 @@ Discuss.* 2024, 252:387 (doi 10.1039/d4fd00014e) depolymerised PET to **TPA +
 MHET in real human serum at 37 °C** with engineered PETase **S238A**, quantified
 by HPLC, no effect on cell viability, and explicitly propose serum treatment for
 microplastic clearance via **erythrocyte-encapsulated enzyme**. Substrate was
-amorphous. ⚠️ A Research Square preprint of this title is marked **WITHDRAWN**
-(rs-3164368 v1, v2) — check whether that is routine before citing.
+amorphous.
+
+  ✅ **PREPRINT WITHDRAWAL CHECKED 2026-09-05 — BENIGN, do not re-litigate.**
+  The Research Square preprint (rs-3164368) carries Research Square's boilerplate
+  author-withdrawal notice, verbatim: *"The full text of this preprint has been
+  withdrawn, as it was submitted in error. Therefore, the authors do not wish
+  this work to be cited as a reference."* "Submitted in error" refers to the
+  POSTING, not the science. Withdrawal posted 2024-03-21, ~2 months before the
+  Biocatalysis Faraday Discussion (May 2024, London) where the work was presented
+  and publicly discussed. **No retraction, correction or expression of concern on
+  the published version; nothing on PubPeer or Retraction Watch; same four KTH
+  authors on both.** The Faraday Discussions process (pre-circulated,
+  peer-reviewed, presented, discussed on the record, published alongside a
+  companion "general discussion" paper) is more scrutiny than a normal paper, not
+  less. Published version is open access.
+
+  → **CITE:** Lopez-Lorenzo, Hueting, Bosshard & Syrén, *Faraday Discuss.*
+  2024, **252**:387–402, doi 10.1039/d4fd00014e.
+  → **NEVER CITE** the preprint DOI (10.21203/rs.3.rs-3164368) — the authors
+  explicitly asked that it not be used as a reference. That request binds the
+  preprint only and says nothing about the published paper.
 
 **4d. ❌ RETRACTED CLAIM: "TPA cannot be measured / that is the gap."** It can,
 several ways: HPLC + TPA standard (4c); CAR/LuxAB bioluminescence cascade
