@@ -496,6 +496,38 @@ clean single polymer — orders of magnitude more than anyone recovers.
 first time searching *narrowed* a framing instead of killing it. "No prior art
 found" ≠ "no prior art exists" — ~10 queries is not a systematic review.
 
+**5. ✅ CONFORMER CONTROL (2026-09-05) — the council's last unmet precondition,
+and it STRENGTHENED the result.** `results/week3_conformer_control.csv`;
+`python -m scripts.conformer_control`. The chairman's objection was that every
+ligand was docked into 7NDS, a closed conformer induced-fit around TPA, so "a
+reviewer attributes the 6/6 false positives to his protocol, not to Vina."
+Re-docked the physiological panel into 7NDR (open/apo) chains A, B, C.
+
+| Receptor | TPA | Best decoy | Margin | Decoys within 1 kcal/mol |
+|---|---|---|---|---|
+| 7NDS closed + flex | −8.06 | hippurate −7.10 | **+0.96** | 5/5 |
+| 7NDR open, chain A | −6.02 | hippurate −6.42 | **−0.41** | 5/5 |
+| 7NDR open, chain B | −5.28 | hippurate −5.90 | **−0.61** | 5/5 |
+| 7NDR open, chain C | −6.14 | hippurate −6.33 | **−0.19** | 5/5 |
+
+- **PERSISTS — the induced-fit explanation is refuted.** Removing the
+  TPA-shaped pocket does not restore discrimination; it removes what there was.
+  On all three open conformers **hippurate (a confirmed non-binder) OUTSCORES
+  terephthalate.**
+- **🆕 Rank order is CONFORMER-CONTINGENT.** Same ligands, protocol and scoring
+  function; TPA ranks 1st on closed, 3rd on open. For anyone holding only an apo
+  structure — the common case — that is the difference between a correct and an
+  inverted answer, with nothing in the output to say which.
+- ⚠️ **This is NOT a claim that docking should work on apo PBPs.** TphC binds by
+  domain closure; the open cleft is not the binding event, and absolute scores
+  there are weaker throughout. The control rejects one specific alternative
+  explanation. Do not overstate it.
+- ⚠️ **Protocol deviation, must always be reported:** apo has no native ligand,
+  so the box is centred on the pocket-residue centroid with a 26 Å box, NOT the
+  UB7 centroid. Absolute scores are therefore not comparable closed-vs-open —
+  only within-receptor rank orders and margins are.
+- Physiological panel only; the ITC panel was not re-docked on open conformers.
+
 ### ✅ What survives and is worth keeping
 
 - **The docking failure case** — 61 compounds of experimental ground truth
@@ -764,7 +796,8 @@ tphc-project/
 │   ├── esmfold_analysis.py      ESMFold vs closed/open state test ★
 │   ├── kd_benchmark.py          affinity ranking vs 6 ITC Kd values (--scoring) ★
 │   ├── scoring_crosscheck.py    vina vs vinardo, scale-invariant metrics ★
-│   └── power_audit.py           p-values, CIs, jackknife, permutation baseline ★
+│   ├── power_audit.py           p-values, CIs, jackknife, permutation baseline ★
+│   └── conformer_control.py     open/apo 7NDR control vs closed 7NDS ★
 ├── results/
 │   │  ── THE ONES THAT MATTER ──
 │   ├── week3_docking_vs_experiment.md    ★ 6/6 false positives; the core finding
@@ -774,6 +807,8 @@ tphc-project/
 │   ├── pitch_v3_crystallinity.md         ★ ACTIVE PITCH — all edits go here
 │   ├── week3_kd_benchmark.md             ★ affinity ranking fails; see corrections
 │   ├── week3_scoring_crosscheck.md       ★ vinardo + power audit + prior art
+│   ├── preprint_docking_case_study.md    ★ THE PREPRINT DRAFT — all edits here
+│   ├── week3_conformer_control.csv       ★ open/apo control, 3 chains
 │   │  ── superseded, kept for provenance ──
 │   ├── pitch_v2_tpa_readout.md           ⛔ ARCHIVED — gap was overstated (§3.4d)
 │   ├── week2_day6_redocking.md           gate passed (still valid)
@@ -828,6 +863,11 @@ right to insist.** Both requested checks were run and both cost us claims:
   promoted to headline — that two scoring functions barely agree — is the
   founding premise of the consensus-scoring literature. Novelty is now
   *disconfirmed*, not merely unverified.
+- **Conformer control (2026-09-05)** — §3 item 5. The chairman's LAST unmet
+  precondition ("test ensemble or 7NDR receptors ... before any preprint").
+  Result: the 6/6 false positives PERSIST on three open conformers, and a
+  confirmed non-binder outscores the true ligand there. The induced-fit
+  objection is refuted and the finding is stronger, not weaker.
 - **Power audit (2026-08-29, not council-requested)** — `scripts/power_audit.py`.
   Found that only 1 of 10 reported correlations clears p < 0.05, that it rests
   on one ligand, and that the n = 6 caveat had been applied asymmetrically.
