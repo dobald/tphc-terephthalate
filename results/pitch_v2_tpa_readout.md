@@ -1,8 +1,22 @@
 # Collaboration Proposal — A Direct Product Readout for Intracellular PET Depolymerisation
 
-**Active pitch document.** All future revisions go here.
-*(The earlier pitch, `week3_day14_collaboration_pitch.md`, is archived
-deliberately as a record of superseded reasoning — do not edit it.)*
+> ## ⛔ ARCHIVED 2026-09-05 — DO NOT EDIT, UPDATE OR SEND
+>
+> **The active pitch is `pitch_v3_crystallinity.md`.**
+>
+> This document's central claim — that terephthalate quantification is the
+> missing capability — **is not supportable.** A prior-art sweep on 2026-09-05
+> found TPA quantified by HPLC in human serum at 37 °C (*Faraday Discuss.*
+> 2024, 252:387) and three bacterial TPA biosensors, one with a 1 µM detection
+> limit. The ACS Nano MS failure quoted below was a limitation of that group's
+> setup, not a gap in the field.
+>
+> Retained deliberately as a record of superseded reasoning — the second pitch
+> in this project to assert a gap before searching for it. See CLAUDE.md §3
+> item 4d. What survived the sweep became the v3 crystallinity framing.
+
+*(The first pitch, `week3_day14_collaboration_pitch.md`, is archived on the same
+principle — do not edit it either.)*
 
 *Placeholders in [brackets] are for you to fill in.*
 
