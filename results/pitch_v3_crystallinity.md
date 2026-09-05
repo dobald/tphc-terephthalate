@@ -72,7 +72,8 @@ to free enzymes it gives clean, enzyme-specific answers:
 | PETase + hydrophobin, yeast surface display | **45%**, ~329× over purified PETase at 30 °C |
 
 **Physiological-condition degradation is demonstrated.** Lopez-Lorenzo, Hueting,
-Bosshard & Syrén (*Faraday Discuss.* 2024, 252:387) depolymerised PET particles
+Bosshard & Syrén (*Faraday Discuss.* 2024, **252**:387–402, doi
+10.1039/d4fd00014e) depolymerised PET particles
 to TPA and MHET using engineered PETase S238A in **real human serum at 37 °C**,
 quantified by HPLC, with no effect on cell viability. They propose serum
 treatment for microplastic clearance, delivered via erythrocyte-encapsulated
