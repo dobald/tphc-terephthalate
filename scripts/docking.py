@@ -235,7 +235,7 @@ def vina_available():
 
 def run_vina(center, receptor=RECEPTOR_PDBQT, ligand=LIGAND_PDBQT,
              out=DOCKED_PDBQT, size=BOX_SIZE, exhaustiveness=32, n_poses=20,
-             seed=42, flex=None):
+             seed=42, flex=None, scoring=None):
     """
     Run a single Vina docking job via the standalone CLI.
 
@@ -250,6 +250,11 @@ def run_vina(center, receptor=RECEPTOR_PDBQT, ligand=LIGAND_PDBQT,
     ]
     if flex:
         cmd += ["--flex", flex]
+    # Cross-scoring-function control. "vinardo" needs no maps (unlike ad4),
+    # so it is a one-flag test of whether a result is a Vina quirk or a
+    # property of empirical scoring functions generally.
+    if scoring:
+        cmd += ["--scoring", scoring]
     cmd += [
         "--center_x", f"{center[0]:.3f}",
         "--center_y", f"{center[1]:.3f}",

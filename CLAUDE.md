@@ -303,24 +303,78 @@ margin by **2.8–4.1 kcal/mol**. Therefore all of the following are wrong:
 then relied on *cross-ligand affinity ranking*. Different tasks, different error
 profiles. The ground truth was in the paper the structure came from.
 
-### 🔬 NEW COMPUTATIONAL RESULTS (2026-08-06) — these are the project's best output
+### 🔬 NEW COMPUTATIONAL RESULTS (2026-08-06) — the project's best output
+### ⚠️ READ 1b AND 1c FIRST. Item 1 below is the ORIGINAL text and it overclaims.
 
 **1. Vina cannot rank TphC ligands by affinity.** `week3_kd_benchmark.md`;
 `python -m scripts.kd_benchmark --fetch` then `python -m scripts.kd_benchmark`.
 Tested against the 6 ITC Kd values in Gautom et al. (0.364–869.6 µM, a 2,389×
 range):
 - experimental ΔG range **4.61 kcal/mol** → Vina range **0.71 kcal/mol**
-  (**15% of the dynamic range captured**)
-- **Spearman ρ = −0.03** vs measured affinity
-- **Vina vs heavy-atom count r = −0.878; vs experimental ΔG r = −0.211.** It is a
-  size detector. Size and affinity are anti-correlated here (r = +0.520), so
-  tracking size drives the ranking *away* from truth.
+  (**15% of the dynamic range captured**) ← *the claim that survived audit*
+- **Spearman ρ = −0.03** vs measured affinity — ⚠️ p = 0.957. This is a FAILURE
+  TO DETECT at n = 6, not a demonstration of absence. See 1b.
+- **Vina vs heavy-atom count r = −0.878; vs experimental ΔG r = −0.211.** ~~It is
+  a size detector.~~ ⚠️ **NARROWED TWICE — see 1b.** Vina-specific (vinardo does
+  not reproduce it) and carried by a single out-of-range ligand. Size and
+  affinity are anti-correlated here (r = +0.520, p = 0.291).
 - the 2,389×-weaker binder (2,6-naphthalenedicarboxylate, 16 HA) **outscored the
   true ligand by 0.66 kcal/mol**
 - BUT the aliphatic non-binder controls (muconate, adipate) were correctly
   rejected → **Vina discriminates gross shape, not polar recognition, not affinity**
 - ⚠️ The full 61-compound panel is NOT usable as ground truth — only ~10 are
   named, the rest are drawn structures. Do not invent class members.
+
+**1b. ⚠️ VINARDO CROSS-CHECK (2026-08-20) + POWER AUDIT (2026-08-29).**
+`results/week3_scoring_crosscheck.md`; `python -m scripts.kd_benchmark --scoring
+vinardo`, then `python -m scripts.scoring_crosscheck`, then
+`python -m scripts.power_audit`. (`--scoring` is wired through `run_vina()` and
+`kd_benchmark`; vinardo needs no maps, unlike ad4.)
+
+- **✅ WHAT SURVIVES — lead with these; none is a significance test.**
+  Range compression (15% vina / 17% vinardo of a 4.61 kcal/mol experimental
+  range); aliphatic non-binders correctly rejected by both; a far-weaker binder
+  outscoring the true ligand under both (vinardo: 2,5-pyridinedicarboxylate,
+  250× weaker, −6.44 vs TPA −5.83). Vinardo errs **+2.96 kcal/mol** on the true
+  ligand vs Vina's +0.73, so "use vinardo instead" is not a fix.
+- **⚠️ "VINA IS A SIZE DETECTOR" — NARROWED TWICE. Do not state it plainly.**
+  (i) *To Vina:* vinardo r = +0.445, **p = 0.377** — an ABSENCE of the
+  correlation, not a reversal. Never write "vinardo penalises larger ligands";
+  that sign is not supportable.
+  (ii) *To one compound:* dropping 2,6-naphthalenedicarboxylate (the only
+  ligand outside 12–14 HA) takes Vina from r = −0.878 to **−0.686, p = 0.201**.
+  Significant in Pearson, NOT in Spearman (−0.647, p = 0.165) → leverage.
+- **⚠️ UNDERPOWERED — the single most important fact about this benchmark.**
+  At n = 6 the detection floor is Pearson |r| > ~0.811, Spearman |ρ| > ~0.886.
+  **Exactly one of ten correlations clears p < 0.05** (vina vs HA, p = 0.021).
+  "ρ = −0.03, no correlation with affinity" is a FAILURE TO DETECT, not a
+  demonstration of absence. Cite the compression instead — it is measured.
+- **❌ RETRACTED: "Spearman between the two functions is only +0.143 / the
+  ranking is arbitrary."** p = 0.787, 95% CI **[−0.756, +0.855]**. Worse, the
+  permutation baseline shows the mean |ρ| of a RANDOM ordering of 6 items is
+  **0.371** — i.e. the file dismissed vinardo's +0.371 as chance while promoting
+  +0.143 uncaveated, applying the n = 6 objection only where it hurt. And
+  cross-program rank disagreement is the founding premise of the
+  consensus-scoring literature (see §3 "prior art" below). Do not cite this.
+- Still untested: ad4 (blocked on receptor charges), smina, gnina; still n = 6;
+  still a single closed conformer; still HA 12–16 with 5 of 6 inside 12–14.
+
+**1c. ⚠️ PRIOR ART CHECKED 2026-08-29 — NONE OF THE THREE FINDINGS IS NOVEL.**
+The council's standing action item, now done. Frame all three as a **case study
+reproducing known failure modes**, never as a discovery.
+
+| Finding | Prior art | Verdict |
+|---|---|---|
+| Scoring functions track molecular size | "Unbiasing Scoring Functions" (*JCIM*, doi 10.1021/ci600471m): hitlist rank correlates with descriptors that track MW. Benchmarks over 2,000+ complexes rarely exceed r ≈ 0.60 for affinity. | known |
+| **Scoring functions disagree with each other** | The stated motivation for the whole consensus-scoring field (dockECR PMC8442548; exponential consensus ranking, *Sci Rep* 2019). | **known — this was our claimed headline** |
+| ESMFold/AF2 predicts the apo state; pLDDT does not flag it | AF2 ensembles sit "in the local vicinity of the apo structure" (PMC11641424) — demonstrated on D-allose and D-ribose binding proteins, **the same PBP fold family as TphC**. | known, on our fold family |
+| cpGFP sensors confounded by pH | Standard GECI limitation; FIRE-pHLy uses mTFP1 pKa 4.3 for exactly this reason (*ACS Sensors*, doi 10.1021/acssensors.0c02318). | known |
+
+**What is still ours:** the worked example — a documented pipeline scored
+against the 61-compound experimental panel from the very paper that produced the
+docked structure, failure quantified end to end, code public. Complete ground
+truth of that kind is uncommon and negative results with it rarely get written
+up. That is the contribution; the phenomena are not.
 
 **2. A cpGFP sensor cannot work in the phagolysosomal lumen.**
 `python -m scripts.sensor_ph_analysis`. cpGFP reports *via* chromophore
@@ -534,7 +588,14 @@ and belongs to whoever picks up the assay:
 If a computational task is wanted, the defensible one is writing up the
 **docking failure case** — 61 compounds of ground truth against a documented
 pipeline, with a mechanistic explanation (two-point recognition defeats
-empirical scoring). That is the most transferable output of this project.
+empirical scoring) offered as a *hypothesis*.
+
+⚠️ **Write it as a case study, not a discovery** (§3 item 1c): the phenomena are
+all documented already. What is uncommon is the ground truth — a complete
+experimental specificity panel from the same paper as the docked structure — and
+a negative result written up rather than dropped. Lead with the range
+compression, which is measured; do not lead with a correlation, which at n = 6
+is not.
 
 ## 6. BUG LEDGER — already resolved, do not re-suggest
 
@@ -584,7 +645,10 @@ tphc-project/
 │   ├── contact_analysis.py      per-residue TPA vs homophthalate contacts
 │   ├── concentration_analysis.py  required-selectivity arithmetic (VOID inputs)
 │   ├── experimental_validation.py docking vs Gautom's 61-compound screen ★
-│   └── esmfold_analysis.py      ESMFold vs closed/open state test ★
+│   ├── esmfold_analysis.py      ESMFold vs closed/open state test ★
+│   ├── kd_benchmark.py          affinity ranking vs 6 ITC Kd values (--scoring) ★
+│   ├── scoring_crosscheck.py    vina vs vinardo, scale-invariant metrics ★
+│   └── power_audit.py           p-values, CIs, jackknife, permutation baseline ★
 ├── results/
 │   │  ── THE ONES THAT MATTER ──
 │   ├── week3_docking_vs_experiment.md    ★ 6/6 false positives; the core finding
@@ -635,12 +699,23 @@ mandatory rather than optional. Never save a summary in place of the full text.
 |---|---|
 | `council/council-entire-project-2026-08-20.md` | Write the preprint, not the pitch — but run three prior-art searches first, because the novelty of the docking finding was asserted without one. |
 
-**Standing action item from that council (not yet done):** search the prior art on
-(1) scoring-function size bias / ligand efficiency / CASF benchmarks,
-(2) ESMFold-AlphaFold apo-state bias, (3) cpGFP pH sensitivity in acidic
-compartments. Until those are run, treat findings A, B and C as *unverified for
-novelty*. Also unrun: the `--scoring vinardo` cross-check (one command), which
-decides whether the docking failure is a Vina quirk or a class result.
+**Standing action item from that council — ✅ ALL DONE, and the council was
+right to insist.** Both requested checks were run and both cost us claims:
+
+- **`--scoring vinardo` cross-check (2026-08-20)** — §3 item 1b. Narrowed the
+  size-detector mechanism to Vina alone.
+- **Three prior-art searches (2026-08-29)** — §3 item **1c**. Verdict:
+  **findings A, B and C are all known phenomena.** The one this project had
+  promoted to headline — that two scoring functions barely agree — is the
+  founding premise of the consensus-scoring literature. Novelty is now
+  *disconfirmed*, not merely unverified.
+- **Power audit (2026-08-29, not council-requested)** — `scripts/power_audit.py`.
+  Found that only 1 of 10 reported correlations clears p < 0.05, that it rests
+  on one ligand, and that the n = 6 caveat had been applied asymmetrically.
+
+**The council's core criticism was correct and is now evidenced:** this project
+repeatedly asserted novelty before searching. Two independent framings and one
+headline result have now died that way. Search first.
 
 ---
 
