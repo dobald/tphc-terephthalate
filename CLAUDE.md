@@ -797,7 +797,8 @@ tphc-project/
 │   ├── kd_benchmark.py          affinity ranking vs 6 ITC Kd values (--scoring) ★
 │   ├── scoring_crosscheck.py    vina vs vinardo, scale-invariant metrics ★
 │   ├── power_audit.py           p-values, CIs, jackknife, permutation baseline ★
-│   └── conformer_control.py     open/apo 7NDR control vs closed 7NDS ★
+│   ├── conformer_control.py     open/apo 7NDR control vs closed 7NDS ★
+│   └── make_figures.py          Figures 1-4 for the preprint ★
 ├── results/
 │   │  ── THE ONES THAT MATTER ──
 │   ├── week3_docking_vs_experiment.md    ★ 6/6 false positives; the core finding

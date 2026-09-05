@@ -511,7 +511,15 @@ python -m scripts.scoring_crosscheck   # cross-function comparison
 python -m scripts.power_audit          # p-values, CIs, jackknife, permutation
 python -m scripts.conformer_control    # open/apo conformer control
 python -m scripts.esmfold_analysis     # two-state comparison
+python -m scripts.make_figures         # Figures 1-4
 ```
+
+**Figure provenance.** Figures 1 and 2 are generated directly from
+`week3_kd_benchmark.csv` and `week3_wt_baseline_flex.csv`. Figures 3 and 4
+transcribe values from the audited analyses rather than recomputing them inline
+— the jackknife table from `power_audit.py` and the ESMFold RMSDs from
+`esmfold_analysis.py`. Both sets were checked against those scripts' output.
+Nothing in any figure is estimated.
 
 ## Acknowledgements
 
