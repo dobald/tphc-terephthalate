@@ -21,12 +21,19 @@
   rather than before. This is the single most expensive lesson in the project.
 - **Validate the specific task you intend to rely on**, not an adjacent one. A
   pose-prediction gate does not license cross-ligand affinity ranking.
-- **THE ACTIVE PITCH IS `results/pitch_v2_tpa_readout.md`.** All pitch edits,
-  revisions and rewrites go there and nowhere else.
-  **`results/week3_day14_collaboration_pitch.md` is ARCHIVED — never edit, update
-  or send it.** It is retained deliberately by the project owner as a record of
-  superseded reasoning (a pitch whose central ask was already answered in the
-  literature). Do not "helpfully" bring it up to date, merge it, or delete it.
+- **THE ACTIVE PITCH IS `results/pitch_v3_crystallinity.md`** (since 2026-09-05).
+  All pitch edits, revisions and rewrites go there and nowhere else.
+  **TWO pitches are now ARCHIVED — never edit, update or send either:**
+  - `results/week3_day14_collaboration_pitch.md` — central ask already answered
+    in the literature (TPAsense existed).
+  - `results/pitch_v2_tpa_readout.md` — claimed "TPA cannot be measured" as the
+    gap; a proper search found HPLC-in-serum plus three bacterial TPA biosensors.
+    The gap was overstated. See §3 item 4.
+
+  Both are retained deliberately by the project owner as records of superseded
+  reasoning. Do not "helpfully" bring them up to date, merge them, or delete them.
+  **The pattern across all three is the lesson: every pitch that asserted a gap
+  before searching for it lost that gap on contact with the literature.**
 - Do not re-suggest fixes listed in Section 6 (Bug Ledger) — they are already resolved.
 - Always give complete, runnable code — this project runs as real Python scripts/notebook cells now, not pseudocode.
 - Before assuming a fix worked, ask for or check the actual output/error.
@@ -60,20 +67,34 @@ each documented in `results/`:
    (Kd 0.364 µM; monocarboxylates and regioisomers do not bind), and a
    transducing biosensor already exists (TPAsense, Kd 99 nM).
 
-**CURRENT SCOPE — narrow, and supported by the evidence:**
+**CURRENT SCOPE — revised 2026-09-05. The previous scope was retired, not met.**
 
-> **Provide the missing readout: direct terephthalate quantification of
-> intracellular PET depolymerisation, in macrophages.**
+> ⚠️ **RETIRED SCOPE (2026-08-06 → 2026-09-05):** *"Provide the missing readout —
+> direct terephthalate quantification of intracellular PET depolymerisation."*
+> **TPA measurement is not a gap.** HPLC against a TPA standard works in human
+> serum; three bacterial TPA biosensors exist, one with a 1 µM detection limit.
+> The ACS Nano MS failure was their setup, not the field. See §3 item 4.
 
-ACS Nano 2026 demonstrated intracellular PET nanoplastic degradation using
-lysosome-delivered encapsulated IsPETase — but **could not detect TPA or BHET by
-mass spectrometry**, falling back on indirect fluorescence loss, and worked in
-HeLa rather than macrophages. That is a gap they state in print, and a
-nanomolar TPA sensor is the instrument for it.
+> **CURRENT SCOPE: does intracellular PET degradation survive real substrate?**
+> Where on the crystallinity axis does encapsulated, intracellular PET hydrolase
+> stop working — and is environmental particulate PET on the wrong side of it?
 
-**This is assay development, not a therapeutic.** That is a real reduction in
-scope. It is also the first framing in this project that survived contact with
-the literature.
+The demonstrated intracellular degradation used PET nanoparticles made by
+**dissolving PET fiber in hexafluoroisopropanol and reprecipitating into water**,
+and **neither that paper nor the cited method paper measured crystallinity at
+all.** Enzymatic PET hydrolysis is governed by crystallinity (published
+tolerances span ~10–45% depending on enzyme and presentation); real bottle- and
+textile-derived PET is 30–40%. So it is currently unknown whether the
+demonstration transfers to environmental particles.
+
+**The enabling instrument is a mammalian-expressed TPA sensor**, which does not
+exist — every genetically encoded TPA sensor is in *E. coli*. That is the
+narrow, still-unoccupied contribution: not the readout in general, but the
+readout *in a mammalian cell*, used to answer the crystallinity question.
+
+**This is still assay development, not a therapeutic**, and it is now three
+qualifiers deep (crystallinity × intracellular × mammalian). It is the first
+framing that survived a deliberate attempt to disprove it.
 
 **Out of scope:** binder redesign, CAR engineering, selectivity optimisation —
 all ruled out above, not merely deprioritised.
@@ -393,6 +414,69 @@ TPAsense's Tm 59 °C that leaves ~53 °C — still folded at 37 °C. Protease ri
 cannot be settled computationally; the worrying sites are the **cpGFP fusion
 linkers**, sequence unpublished.
 
+**4. 🔬 SUBSTRATE + PRIOR-ART SWEEP (2026-09-05) — retired the v2 scope, opened
+the current one.** ~10 searches across forward citations, preprints, patents and
+four vocabularies. Everything here is literature, not computation.
+
+**4a. The ACS Nano substrate is solvent-reprecipitated, and its crystallinity
+was never measured.** Liu *et al.*, *ACS Nano* 2026, 20:4106 (doi
+10.1021/acsnano.5c15213) says only "PET NPs were produced according to published
+methods," citing Johnson *et al.*, *Nanoscale Adv.* 2021, 3:339 (doi
+10.1039/d0na00888e): **0.58 g PET fiber (IZO Home Goods) → 35 mL
+hexafluoroisopropanol → dropwise at 1 mL/min into 75 mL water**, giving ~138 nm
+particles. **Neither paper reports DSC, XRD, WAXS, Tm or Tg.** The word
+"crystallinity" does not appear in the ACS Nano paper. *(Johnson et al. did use
+RAW 264.7 macrophages for uptake — so these particles are already characterised
+in macrophage lineage, just never for degradation.)*
+
+**4b. Crystallinity governs PET hydrolysis, and the threshold is
+presentation-dependent — do NOT state "20% is a hard wall."** Published
+tolerances: PHL7 efficient at ~10% and "extremely sensitive" above; LCC,
+LCC-ICCG, DuraPETase active at **24.4%**; PETase + hydrophobin on a yeast surface
+reaches **45%** with ~329× rate gain over purified PETase. Only the mobile
+amorphous fraction admits enzyme. Model particles land ~7–18% (DSC: amorphous
+film 6.91%, cryomilled 6.20%, solvent-treated 17.90%); **bottles and textiles are
+30–40%**, and weathering raises surface crystallinity via chemi-crystallisation.
+A **standardized thermal-annealing method** for building the ladder exists
+(PMC9418548) — reuse it, do not invent one.
+
+**4c. ❌ RETRACTED CLAIM: "nobody is optimising PET hydrolases for physiological
+conditions."** Wrong. Lopez-Lorenzo, Hueting, Bosshard & Syrén, *Faraday
+Discuss.* 2024, 252:387 (doi 10.1039/d4fd00014e) depolymerised PET to **TPA +
+MHET in real human serum at 37 °C** with engineered PETase **S238A**, quantified
+by HPLC, no effect on cell viability, and explicitly propose serum treatment for
+microplastic clearance via **erythrocyte-encapsulated enzyme**. Substrate was
+amorphous. ⚠️ A Research Square preprint of this title is marked **WITHDRAWN**
+(rs-3164368 v1, v2) — check whether that is routine before citing.
+
+**4d. ❌ RETRACTED CLAIM: "TPA cannot be measured / that is the gap."** It can,
+several ways: HPLC + TPA standard (4c); CAR/LuxAB bioluminescence cascade
+(*iScience* 2022, PMC9117539, >17× at 1 mM, tested on PES-H1/LCC/LCC-ICCG); TphR
+transcription-factor biosensor (*ACS Synth. Biol.* 2025, **1 µM LOD**); plus
+TPAsense (TphC–cpGFP, Kd 99 nM). **The ACS Nano MS failure was their setup, not
+a field-wide gap.** This is what retired the v2 pitch.
+
+**4e. ✅ WHAT IS STILL OPEN — the intersection, and the current scope.**
+- **No crystallinity series has ever been run against encapsulated or
+  intracellular enzyme.** Zero hits. All crystallinity work uses free enzyme or
+  surface display, on bulk PET, in buffer.
+- **Every genetically encoded TPA sensor is in *E. coli*.** None expressed in a
+  mammalian cell; TPAsense is characterised as purified protein.
+- **"True-to-life" nanoplastics** (mechanically degraded real consumer products)
+  exist and have been put into THP-1 monocytes — but for **toxicology only**,
+  never combined with a degradation system.
+
+**4f. Tissue crystallinity is unmeasured and currently unmeasurable.** Loads:
+placenta 6.5–685 µg/g (mean 127 ± 148), arteries 119 ± 54 µg/g, brain ~50 µg/g;
+PET is ~18% of placental microplastics. Detection is Py-GC/MS (**pyrolyses the
+polymer** — identity and mass only) or Raman/FTIR (blind below ~1 µm, no mass).
+Workflow: ~500 mg tissue → KOH digest → **1–2 mg pellet**. DSC/XRD need mg of
+clean single polymer — orders of magnitude more than anyone recovers.
+
+**4g. PROCESS NOTE.** This sweep cost two claims and retired a pitch. It is the
+first time searching *narrowed* a framing instead of killing it. "No prior art
+found" ≠ "no prior art exists" — ~10 queries is not a systematic review.
+
 ### ✅ What survives and is worth keeping
 
 - **The docking failure case** — 61 compounds of experimental ground truth
@@ -412,16 +496,24 @@ linkers**, sequence unpublished.
 
 ### Immediate next steps for the current scope
 
-1. **Do not rebuild TPAsense.** It exists and works. The contribution is the
-   application, not the sensor.
-2. **Sensing location matters.** The phagolysosome is acidic *and* proteolytic,
-   and cpGFP sensors are pH-sensitive. Detecting exported TPA in **cytosol or
-   medium** is likely far easier than in the lumen. Resolve this before any
-   construct design.
-3. **Macrophages, not HeLa** — the physiologically relevant cell.
-4. **Measure product toxicity** — degradation releases TPA + ethylene glycol
-   intracellularly at unknown local concentration; the ACS Nano authors flag
-   this as unaddressed.
+1. **The headline experiment is the crystallinity ladder run inside cells.**
+   Substrate series (~7% nanoprecipitated → 30–40% cryomilled bottle/fiber),
+   **DSC on every batch** — the step both source papers skipped — into the
+   published capsule system, in macrophages, read out as TPA.
+2. **A mammalian-expressed TPA sensor is the enabling instrument and does not
+   exist.** This is the one thing genuinely worth building. TPAsense's topology
+   is published and TphC is fully characterised, so it is bounded work.
+   *(Superseded guidance: "do not rebuild TPAsense" applied to the v2 scope,
+   where the sensor already existed for the job. It does not apply to mammalian
+   expression.)*
+3. **Sense in cytosol or medium, not the lumen** — §3 item 2 settles this; the
+   pH artefact is 6–111× the analyte signal and cannot be calibrated away.
+4. **Macrophages, not HeLa** — the physiologically relevant cell, and
+   already the host for uptake studies of these exact particles (§3 item 4a).
+5. **Measure product toxicity** — TPA + ethylene glycol released intracellularly
+   at unknown local concentration; the ACS Nano authors flag this as unaddressed.
+6. **Before writing any of this up, search again.** Two pitches have died on
+   unsearched gaps. The current one survived ~10 queries, not a systematic review.
 
 ### PROCESS LESSON — apply before any future campaign
 
@@ -575,15 +667,20 @@ no rotabase.txt in FoldX 5.1, so `--rotabaseLocation` is NOT needed.
 
 ### Next, under the current scope (Section 1)
 
-There is **no computational next step on TphC**. The open work is experimental
-and belongs to whoever picks up the assay:
+The open work is largely experimental, but the scope change created one
+**computational** task that did not exist under the v2 scope:
 
-1. Decide **sensing location** — cytosol/medium (likely tractable) vs
-   phagolysosomal lumen (acidic + proteolytic + cpGFP is pH-sensitive).
-2. Move to **macrophages** from HeLa.
-3. Use **TPAsense as-is**; do not rebuild it.
+1. **Design a mammalian-expressible TPA sensor** — codon optimisation, topology
+   selection against the published TphC-iV283–sf-cpGFP fusion, linker design,
+   and a pH-response prediction. This is real, bounded, in-scope computational
+   work on a construct that does not yet exist (§3 item 4e).
+2. Run the **crystallinity ladder** in cells — experimental; needs a bench.
+3. Move to **macrophages** from HeLa.
 4. **Measure product toxicity** — intracellular TPA + ethylene glycol at unknown
    local concentration.
+
+⚠️ Do NOT re-open binder design, CAR engineering or selectivity work to serve
+any of this. All three remain ruled out by experiment (§3).
 
 If a computational task is wanted, the defensible one is writing up the
 **docking failure case** — 61 compounds of ground truth against a documented
@@ -655,8 +752,11 @@ tphc-project/
 │   ├── week3_architecture_analysis.md    ★ why CAR-M and the AND-gate fail
 │   ├── week3_prior_art_check.md          ★ TtC primary data + ACS Nano prior art
 │   ├── week1_esmfold_rmsd.md             ★ predicted the wrong STATE, accurately
-│   ├── pitch_v2_tpa_readout.md           ★ ACTIVE PITCH — all edits go here
+│   ├── pitch_v3_crystallinity.md         ★ ACTIVE PITCH — all edits go here
+│   ├── week3_kd_benchmark.md             ★ affinity ranking fails; see corrections
+│   ├── week3_scoring_crosscheck.md       ★ vinardo + power audit + prior art
 │   │  ── superseded, kept for provenance ──
+│   ├── pitch_v2_tpa_readout.md           ⛔ ARCHIVED — gap was overstated (§3.4d)
 │   ├── week2_day6_redocking.md           gate passed (still valid)
 │   ├── week2_day7_selectivity.md         conclusions void
 │   ├── week2_day8_mpnn_library.md        ligand-blind MPNN warning (valid)
