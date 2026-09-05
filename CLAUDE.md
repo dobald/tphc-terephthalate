@@ -34,6 +34,20 @@
   reasoning. Do not "helpfully" bring them up to date, merge them, or delete them.
   **The pattern across all three is the lesson: every pitch that asserted a gap
   before searching for it lost that gap on contact with the literature.**
+
+  **✅ ONE CARVE-OUT (added 2026-09-05, on the owner's instruction): outright
+  FACTUAL errors in archived pitches may be corrected in place** — a
+  misattributed citation, a wrong accession, a dead pointer. Anything someone
+  could copy out and repeat as fact.
+  - **Strike the wrong text through (`~~like this~~`), never delete it**, and add
+    a dated correction note beside it. The point of these files is to preserve
+    what was believed; erasing the error destroys the record.
+  - **Never touch the reasoning, framing, conclusions or the ask.** Being wrong
+    is what the documents are for.
+  - Applied so far: `pitch_v2_tpa_readout.md`, the TPAsense patent citation.
+  - ⚠️ **Still outstanding under this carve-out:**
+    `week3_day14_collaboration_pitch.md` line 5 still names v2 as the active
+    pitch. Flagged twice, not yet fixed — ask before doing it.
 - Do not re-suggest fixes listed in Section 6 (Bug Ledger) — they are already resolved.
 - Always give complete, runnable code — this project runs as real Python scripts/notebook cells now, not pseudocode.
 - Before assuming a fix worked, ask for or check the actual output/error.
