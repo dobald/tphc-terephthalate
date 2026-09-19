@@ -867,7 +867,7 @@ tphc-project/
 │   ├── scoring_crosscheck.py    vina vs vinardo, scale-invariant metrics ★
 │   ├── power_audit.py           p-values, CIs, jackknife, permutation baseline ★
 │   ├── conformer_control.py     open/apo 7NDR control vs closed 7NDS ★
-│   ├── make_figures.py          Figures 1-4 for the preprint ★
+│   ├── make_figures.py          Figures 1-5; --plain = manuscript set ★
 │   ├── sensor_design.py         TPAsense annotation + mammalian construct ★
 │   └── sensor_pka_test.py       pKa robustness: the decision is pKa-free ★
 ├── results/
