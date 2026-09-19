@@ -1,4 +1,4 @@
-"""Generate the four publication/social figures in figures/.
+"""Generate the five publication/social figures in figures/.
 
 Reproduce:  python -m scripts.make_figures
 
@@ -255,8 +255,100 @@ def fig04():
     plt.close(fig)
 
 
+# ------------------------------------------------- 05  conformer control ----
+def fig05():
+    """
+    Rank position, not raw score.
+
+    Absolute scores are NOT comparable between the closed and open receptors --
+    different box-centring rule, and the open cleft is solvent-exposed. Rank
+    WITHIN a receptor is comparable, and rank is exactly the claim being made.
+    Plotting rank sidesteps the incomparability instead of hiding it.
+    """
+    df = pd.read_csv("results/week3_conformer_control.csv")
+    nm = {"terephthalic_acid": "Terephthalate", "homophthalic_acid": "Homophthalate",
+          "hippuric_acid": "Hippurate", "paba": "PABA", "benzoic_acid": "Benzoate",
+          "tyrosine": "Tyrosine", "phenylalanine": "Phenylalanine"}
+
+    closed = (df[df.chain == "A"][["compound", "closed_ref"]]
+              .set_index("compound")["closed_ref"].to_dict())
+    receptors = [("7NDS closed\n(ligand-shaped)", closed)]
+    for ch in ["A", "B", "C"]:
+        sub = df[df.chain == ch].set_index("compound")["mean_affinity"].to_dict()
+        receptors.append(("7NDR open\nchain %s" % ch, sub))
+
+    fig, ax = frame(
+        9.4, 7.3,
+        "Swap the receptor conformer and the true\nligand falls from 1st to 5th",
+        "Both are crystal structures of the same protein, solved by the same authors.\n"
+        "Same ligands, same scoring function, same protocol — different rank order.",
+        "Rank by mean Vina score within each receptor, 3 replicates, exhaustiveness 64.\n"
+        "Rank is plotted because absolute scores are not comparable between receptors (different box centring).",
+        rect=[0.225, 0.275, 0.60, 0.435])
+
+    n = len(receptors)
+    ax.set_xlim(0.4, 7.6)
+    ax.set_ylim(-0.75, n - 0.25)
+    tr = ax.get_yaxis_transform()
+
+    for yy, (label, scores) in zip(range(n - 1, -1, -1), receptors):
+        order = sorted(scores.items(), key=lambda kv: kv[1])
+        ax.plot([1, 7], [yy, yy], color=MUTED, lw=1.2, alpha=.55, zorder=1)
+        for rank, (cmpd, val) in enumerate(order, start=1):
+            if cmpd == "terephthalic_acid":
+                ax.plot(rank, yy, "o", ms=15, color=ACCENT, zorder=4)
+                ax.text(rank, yy, str(rank), ha="center", va="center",
+                        fontsize=9.5, fontweight="bold", color="white", zorder=5)
+            elif cmpd == "hippuric_acid":
+                ax.plot(rank, yy, "o", ms=11, color=GREEN, zorder=3)
+            else:
+                ax.plot(rank, yy, "o", ms=8, color=MUTED, zorder=2)
+        ax.text(-0.035, yy, label, transform=tr, ha="right", va="center",
+                fontsize=10.5, color=INK, linespacing=1.35,
+                fontweight="bold" if yy == n - 1 else "normal")
+
+        tpa = scores["terephthalic_acid"]
+        hip = scores["hippuric_acid"]
+        margin = hip - tpa
+        col = GREEN if margin > 0 else ACCENT
+        ax.text(1.045, yy, ("%+.2f" % margin), transform=tr, ha="left", va="center",
+                fontsize=10.5, fontweight="bold", color=col)
+
+    ax.text(1.045, n - 0.55, "TPA margin\nover hippurate", transform=tr,
+            ha="left", va="center", fontsize=9, fontweight="bold",
+            color=SRC, linespacing=1.35)
+    ax.text(-0.035, n - 0.55, "RECEPTOR", transform=tr, ha="right", va="center",
+            fontsize=9.5, fontweight="bold", color=SRC)
+
+    ax.set_yticks([])
+    ax.spines["left"].set_visible(False)
+    ax.set_xticks(range(1, 8))
+    ax.tick_params(axis="x", labelsize=10, pad=6)
+    ax.set_xlabel("rank by predicted score within that receptor   (1 = best)",
+                  fontsize=10.5, color=SUB, labelpad=10)
+
+    handles = [
+        Line2D([0], [0], marker="o", color="none", markerfacecolor=ACCENT,
+               markersize=11, label="Terephthalate  (the true ligand, K$_d$ 0.364 µM)"),
+        Line2D([0], [0], marker="o", color="none", markerfacecolor=GREEN,
+               markersize=9, label="Hippurate  (confirmed NON-binder)"),
+        Line2D([0], [0], marker="o", color="none", markerfacecolor=MUTED,
+               markersize=7, label="other decoys  (all confirmed non-binders)"),
+    ]
+    leg = ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(-0.295, -0.255),
+                    frameon=False, fontsize=9.5, handletextpad=0.5,
+                    labelspacing=0.55, ncol=1, borderpad=0)
+    for t_ in leg.get_texts():
+        t_.set_color(SUB)
+    leg.get_texts()[0].set_color(INK)
+    leg.get_texts()[0].set_fontweight("bold")
+
+    fig.savefig(OUT + "05_conformer_control.png", facecolor="white")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    for f in (fig01, fig02, fig03, fig04):
+    for f in (fig01, fig02, fig03, fig04, fig05):
         f()
         print("wrote", f.__name__)

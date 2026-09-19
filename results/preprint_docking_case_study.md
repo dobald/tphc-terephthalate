@@ -5,7 +5,7 @@ Independent researcher · dnldphan@gmail.com · ORCID [pending]
 
 *Preprint draft, 2026-09-05. Target venue: bioRxiv (biophysics / bioinformatics).*
 *Complete draft. Outstanding before submission: ORCID registration; notify
-Gautom et al.; convert the four figures from presentation styling to
+Gautom et al.; convert the five figures from presentation styling to
 conventional captions.*
 
 ---
@@ -275,7 +275,8 @@ around terephthalate, so the result may reflect our receptor rather than the
 scoring function. We tested this by re-docking the panel into three chains of
 the open/apo structure 7NDR (§2.5), which was never shaped around the ligand.
 
-**The false-positive pattern persists, and the ranking degrades further.**
+**The false-positive pattern persists, and the ranking degrades further**
+(Figure 5).
 
 | Receptor | TPA | Best decoy | Margin | Decoys within 1 kcal/mol |
 |---|---|---|---|---|
@@ -303,7 +304,44 @@ Two conclusions, and one thing this does **not** show:
   versus −8.06 closed). The control tests one specific alternative explanation
   for §3.2 and rejects it. It is not a claim about apo docking in general.
 
-### 3.4 Statistical power
+### 3.4 The same control on the ITC panel: compression persists, ranking worsens
+
+Section 3.3 tested the false-positive result against receptor conformer. We ran
+the same control on the ITC panel, which carries §3.1's range-compression
+result, docking all six binders and both aliphatic controls into the same three
+open chains.
+
+| Receptor | Range captured | Rank of terephthalate | Weaker binders outscoring it |
+|---|---|---|---|
+| 7NDS closed + flex | **15.3%** | 4 of 6 | 3 of 5 |
+| 7NDR open, chain A | **38.4%** | **6 of 6** | 5 of 5 |
+| 7NDR open, chain B | **31.8%** | **6 of 6** | 5 of 5 |
+| 7NDR open, chain C | **30.9%** | 5 of 6 | 4 of 5 |
+
+**Two findings, and they point in opposite directions.**
+
+**Compression is not an artefact of the closed pocket.** On conformers never
+shaped around terephthalate, the six binders still span under 40% of their
+4.61 kcal/mol experimental range. The result in §3.1 does not depend on the
+induced-fit receptor.
+
+**But its magnitude does depend on the conformer.** The open structures capture
+**~2.2× more** of the experimental range than the closed one. The figure "15%"
+is a property of one receptor, not of the method, and we no longer state it
+without that qualification.
+
+**The ranking failure, by contrast, is unambiguously worse on the open
+conformers.** Terephthalate — the tightest binder in the panel at K_d 0.364 µM —
+ranks fourth of six on the closed structure and **last or second-to-last** on
+the open ones. The advantage held by 2,6-naphthalenedicarboxylate, the weakest
+binder at 869.6 µM and 2,389-fold worse, grows from **0.65 kcal/mol on the
+closed receptor to 1.34–1.77 kcal/mol on the open ones.**
+
+Taken with §3.3, the pattern is consistent: removing the ligand-shaped pocket
+does not repair the ranking, it degrades it further — on both panels, by every
+measure we applied.
+
+### 3.5 Statistical power
 
 At n = 6, two-tailed significance at p < 0.05 requires Pearson |r| > ~0.811 or
 Spearman |ρ| > ~0.886. A Spearman that high corresponds to an almost perfect
@@ -322,7 +360,7 @@ A permutation baseline over all 720 orderings of six items gives a mean |ρ| of
 **0.371** for a *random* ranking — a value we had previously dismissed as noise
 in one place while promoting a smaller one as a finding in another (§6).
 
-### 3.5 Structure prediction: the right structure, the wrong state
+### 3.6 Structure prediction: the right structure, the wrong state
 
 ESMFold's prediction of TphC deviates from the closed/holo crystal structure by
 **4.014 Å** CA RMSD (maximum deviation 8.32 Å at residue 185). Read against the
@@ -411,7 +449,7 @@ been applied only where it damaged the argument. The claim is also not novel
 **Narrowed: "the scoring function is a size detector."** True of Vina on this
 panel; not shown for vinardo (r = +0.445, p = 0.377 — an *absence* of the
 correlation, not a reversal, and we caution against stating the positive sign);
-and carried by a single ligand (§3.4).
+and carried by a single ligand (§3.5).
 
 **Narrowed: "no correlation with measured affinity."** Consistent with the data
 but underpowered. The range compression carries the same conclusion and is
@@ -436,9 +474,12 @@ measured directly rather than inferred from a correlation.
   pocket-residue centroid and a larger box were used (§2.5). Absolute scores are
   therefore not comparable between the closed and open receptors; only the
   within-receptor rank orders and margins are.
-- **The conformer control covers the physiological panel only.** The ITC panel
-  was not re-docked on the open conformers, so §3.1's range compression is
-  demonstrated on the closed structure alone.
+- **Range compression is conformer-dependent in magnitude.** §3.4 re-docked the
+  ITC panel on three open conformers: compression persists (all under 40% of the
+  experimental range) but the open structures capture ~2.2× more range than the
+  closed one. The figure "15%" describes one receptor, not the method. This
+  supersedes an earlier limitation stating the ITC panel had not been tested on
+  open conformers; it has, and the claim is narrowed rather than withdrawn.
 - **Three chains is a small ensemble**, drawn from one crystal form of one
   conformational state. It tests a specific alternative explanation; it is not a
   conformational-ensemble study.
@@ -473,7 +514,8 @@ non-binder — outscores the true ligand.
 The control also produced an unplanned result worth separating out: **rank order
 is contingent on which crystal conformer of the same protein is used.** With
 identical ligands, protocol and scoring function, terephthalate ranks first on
-the closed structure and third on the open one. For a practitioner with only an
+the closed structure and **fourth, fifth and fourth of seven** on open chains
+A, B and C. For a practitioner with only an
 apo structure — the common case — that is the difference between a correct and
 an inverted answer, with nothing in the output to indicate which they have.
 
@@ -492,6 +534,43 @@ distribution in which everything ligand-shaped lands within 1–2 kcal/mol of th
 target**, at sites whose selectivity derives from a small number of precisely
 placed polar contacts rather than from shape complementarity. We cannot test
 that here.
+
+---
+
+## Figure legends
+
+**Figure 1. Docking compresses a 2,389-fold affinity range into 15% of its
+span.** Measured binding free energies for six TphC binders with published ITC
+dissociation constants (left) against AutoDock Vina scores for the same six
+ligands (right). Experimental range 4.61 kcal/mol; predicted range
+0.71 kcal/mol. Vinardo gives 17% of the range on the same panel.
+
+**Figure 2. Six of six experimentally confirmed non-binders scored as credible
+binders.** Mean Vina scores, crystal receptor with flexible side chains, five
+replicates. Every decoy belongs to a compound class the published 61-compound
+DSF/ITC screen reports as non-binding.
+
+**Figure 3. The only statistically significant correlation in the benchmark
+rests on a single compound.** Leave-one-out jackknife of the correlation between
+Vina score and heavy-atom count (n = 6). Removing any of five ligands leaves the
+correlation significant; removing 2,6-naphthalenedicarboxylate — the only ligand
+outside a 12–14 heavy-atom band — takes it to r = −0.686, p = 0.201. Shaded
+region marks |r| > 0.811, the p < 0.05 threshold at this sample size.
+
+**Figure 4. The structure predictor produced the wrong conformational state,
+accurately.** ESMFold backbone Cα RMSD against both crystal structures of TphC.
+Against the closed state required for docking, 4.014 Å; against the open/apo
+state, 0.92–1.09 Å across chains A–F. Mean pLDDT is 91 in both comparisons, and
+per-residue confidence does not correlate with per-residue error (r = −0.26).
+
+**Figure 5. Rank order is contingent on which crystal conformer is used.**
+Rank by mean Vina score within each receptor, for the seven-compound
+physiological panel. Terephthalate (red, rank labelled) ranks first on the
+closed structure and fourth to fifth of seven on three chains of the open/apo
+structure, where hippurate — a confirmed non-binder — ranks first throughout.
+Rank is plotted rather than raw score because absolute scores are not comparable
+between the closed and open receptors (§2.5). Right-hand column gives
+terephthalate's margin over hippurate in kcal/mol.
 
 ---
 

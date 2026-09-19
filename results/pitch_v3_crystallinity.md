@@ -227,7 +227,7 @@ hippuric acid, a confirmed non-binder, **outscores the true ligand outright**
 (margins −0.19 to −0.61 kcal/mol). Removing the induced-fit pocket does not
 restore discrimination; it removes what discrimination there was. A by-product:
 rank order is **conformer-contingent** — same ligands, same protocol, TPA first
-on the closed structure and third on the open one.
+on the closed structure and fourth-to-fifth of seven on the open ones.
 
 **The range compression is the number to look at**, because it is measured
 directly. I originally led with correlations instead; at n = 6 only one of ten

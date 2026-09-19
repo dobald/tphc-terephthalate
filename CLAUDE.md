@@ -556,7 +556,10 @@ Re-docked the physiological panel into 7NDR (open/apo) chains A, B, C.
   On all three open conformers **hippurate (a confirmed non-binder) OUTSCORES
   terephthalate.**
 - **🆕 Rank order is CONFORMER-CONTINGENT.** Same ligands, protocol and scoring
-  function; TPA ranks 1st on closed, 3rd on open. For anyone holding only an apo
+  function; TPA ranks **1st of 7 on closed, but 4th / 5th / 4th on open chains
+  A / B / C**. (An earlier version of this line said "3rd on open" — wrong,
+  and wrong in the direction that UNDERSTATED the effect. Recomputed from
+  week3_conformer_control.csv.) For anyone holding only an apo
   structure — the common case — that is the difference between a correct and an
   inverted answer, with nothing in the output to say which.
 - ⚠️ **This is NOT a claim that docking should work on apo PBPs.** TphC binds by
@@ -567,7 +570,32 @@ Re-docked the physiological panel into 7NDR (open/apo) chains A, B, C.
   so the box is centred on the pocket-residue centroid with a 26 Å box, NOT the
   UB7 centroid. Absolute scores are therefore not comparable closed-vs-open —
   only within-receptor rank orders and margins are.
-- Physiological panel only; the ITC panel was not re-docked on open conformers.
+- **✅ ITC PANEL NOW ALSO RUN (2026-09-18)** —
+  `results/week3_conformer_control_itc.csv`;
+  `python -m scripts.conformer_control --itc` (or `--reanalyse` to re-render the
+  verdict from the saved CSV without re-docking — 72 jobs, ~25 min).
+
+  | Receptor | Range captured | TPA rank | Weaker binders outscoring TPA |
+  |---|---|---|---|
+  | closed 7NDS + flex | **15.3%** | 4 of 6 | 3 of 5 |
+  | open 7NDR chain A | **38.4%** | **6 of 6** | 5 of 5 |
+  | open 7NDR chain B | **31.8%** | **6 of 6** | 5 of 5 |
+  | open 7NDR chain C | **30.9%** | 5 of 6 | 4 of 5 |
+
+  - **Compression PERSISTS** — under 40% of the 4.61 kcal/mol range on every
+    open conformer. Not an artefact of the closed, ligand-shaped pocket.
+  - ⚠️ **BUT ITS MAGNITUDE IS CONFORMER-DEPENDENT: open captures ~2.2× more
+    range than closed. Never quote "15%" as a property of the method** — it
+    describes one receptor. Quote a range across conformers.
+  - **The RANKING failure is WORSE on open.** Terephthalate (the tightest
+    binder, 0.364 µM) falls from 4th of 6 to LAST or second-to-last.
+    2,6-naphthalenedicarboxylate (2,389× weaker) extends its lead over TPA from
+    **0.65 kcal/mol closed to 1.34–1.77 open.**
+  - ⚠️ The first version of the verdict function reduced this to a pass/fail on
+    an arbitrary `< 40%` threshold and printed "COMPRESSION REPRODUCES — the
+    limitation can be closed." That hid finding 2 entirely. The threshold was
+    removed; the function now reports range AND rank and draws no binary
+    verdict. **Do not reintroduce a threshold here.**
 
 ### ✅ What survives and is worth keeping
 
@@ -854,6 +882,7 @@ tphc-project/
 │   ├── tpasense_construct_facts.md      ★ TPAsense from source; 3 corrections
 │   ├── preprint_docking_case_study.md    ★ THE PREPRINT DRAFT — all edits here
 │   ├── week3_conformer_control.csv       ★ open/apo control, 3 chains
+│   ├── week3_conformer_control_itc.csv   ★ same control, ITC panel
 │   │  ── superseded, kept for provenance ──
 │   ├── pitch_v2_tpa_readout.md           ⛔ ARCHIVED — gap was overstated (§3.4d)
 │   ├── week2_day6_redocking.md           gate passed (still valid)
