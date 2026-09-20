@@ -671,6 +671,34 @@ Re-docked the physiological panel into 7NDR (open/apo) chains A, B, C.
    *(Superseded guidance: "do not rebuild TPAsense" applied to the v2 scope,
    where the sensor already existed for the job. It does not apply to mammalian
    expression.)*
+
+   **DESIGNED 2026-09-05, TEV SCAR FIXED 2026-09-20.**
+   `results/mammalian_tpa_sensor.fasta`; `python -m scripts.sensor_design
+   --annotate | --design | --verify`. Base TPAsense3.2; His6-TEV tag removed;
+   mScarlet3 kept for ratiometric normalisation; Kozak + stop added; cytosolic
+   (~84 kDa, above the passive nuclear-pore limit, so no NES needed).
+   **766 aa / 2307 nt, GC 55.2%, no unwanted restriction sites, 8/8 checks.**
+
+   ⚠️ **THE TEV P1' SER BELONGS TO THE PROTEIN, NOT THE TAG.** TEV cleaves
+   `ENLYFQ | S`, so the Ser is the first residue of the mature product. The
+   `HIS_TEV` constant is the full 20-residue vector tag and therefore swallows
+   it; the first design dropped it and the construct was `M-DSTEA...`.
+   **Corrected to `M-S-DSTEA...`** Why it matters — neither is a degron, the
+   argument is experimental:
+   - `M+S+payload` → residue 2 is Ser (small) → **MetAP removes the initiator
+     Met** → mature protein is exactly `S-DSTEA...`, the polypeptide
+     characterised at Kd 203 nM, ΔF/F₀ +3.15, Tm 62 °C.
+   - `M+payload` → residue 2 is Asp (too large) → Met **retained** → differs
+     from the characterised protein by one residue, permanently.
+
+   That difference is very likely harmless, but it would have been an
+   uncontrolled variable inseparable from "mammalian context" if the construct
+   underperformed. One codon removes it. **Do not re-drop the Ser.**
+
+   Still untested predictions: expression level, folding at 37 °C in mammalian
+   cytosol, and pKa. Codon optimisation is first-pass (most-frequent codon + GC
+   steering + site removal); it does NOT model mRNA structure, CpG or cryptic
+   splice sites — **run a vendor optimiser before ordering.**
 3. **Sense in cytosol or medium, not the lumen** — §3 item 2 settles this; the
    pH artefact is 6–111× the analyte signal and cannot be calibrated away.
 4. **Macrophages, not HeLa** — the physiologically relevant cell, and
