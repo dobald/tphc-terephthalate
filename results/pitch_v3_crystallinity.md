@@ -28,6 +28,21 @@ trapped from a good solvent into a non-solvent at room temperature.
 **Neither paper measured crystallinity.** No DSC, no XRD, no WAXS, no Tm, no Tg,
 in either. The word does not appear in the ACS Nano paper.
 
+**And this is not one group's oversight — it is the field's default.** Wang
+*et al.* (*Adv. Sci.* 2026, doi 10.1002/advs.77163) degraded **post-consumer**
+PET microplastics at 37 °C and pH 7.4 with an engineered PETase, and reduced
+their cytotoxicity in two human cell lines. Their "post-consumer" particles were
+made by dissolving bottle and fruit-basket PET in **90% trifluoroacetic acid**
+and reprecipitating it. They say so, and they name the consequence:
+
+> "the TFA treatment could reduce crystallinity (physical change) and induces
+> minor terminal end-capping ... but it preserves the integrity of the
+> main-chain ester bonds"
+
+That is the concern stated in the authors' own words — and then not measured.
+Two independent papers, two different solvents, the same unquantified variable
+sitting under the central claim.
+
 That matters because crystallinity — not catalytic power — is the parameter that
 governs whether a PET hydrolase can work at all:
 
@@ -48,9 +63,21 @@ raising surface crystallinity over time.
 > hydrolase actually stop working — and is real-world particulate PET on the
 > wrong side of that line?**
 
-Nobody has asked. If the answer is "yes, it's on the wrong side," the entire
-intracellular-degradation approach is a model-system artefact, and it is much
-better to know that now than after a decade.
+**Nobody has measured it** — not for encapsulated or intracellular enzyme, and
+not with crystallinity as a controlled variable. If the answer is "yes, it's on
+the wrong side," the intracellular-degradation approach is a model-system
+artefact, and it is much better to know that now than after a decade.
+
+**There is now a mechanistic prediction to test against.** Di Pede-Mattatelli
+*et al.* (*J. Phys. Chem. Lett.* 2026, 17:5069, doi 10.1021/acs.jpclett.6c00308)
+used enhanced-sampling molecular dynamics to ask why PETases struggle on
+crystalline PET, and found a **~25–30 kJ/mol free-energy penalty** for forming a
+catalytically competent complex — roughly a **24,000-fold** reduction in
+productive enzyme–substrate configurations, gated by Trp185 conformation. That
+is a physics-based reason to expect failure on 30–40% crystalline substrate, and
+it makes the proposed experiment a test of a specific prediction rather than an
+open-ended survey. It is also purely computational, on free enzyme, with no
+cellular work — so it predicts the answer without supplying it.
 
 ---
 
@@ -71,13 +98,31 @@ to free enzymes it gives clean, enzyme-specific answers:
 | LCC, LCC-ICCG, DuraPETase | active at **24.4%** |
 | PETase + hydrophobin, yeast surface display | **45%**, ~329× over purified PETase at 30 °C |
 
-**Physiological-condition degradation is demonstrated.** Lopez-Lorenzo, Hueting,
-Bosshard & Syrén (*Faraday Discuss.* 2024, **252**:387–402, doi
-10.1039/d4fd00014e) depolymerised PET particles
-to TPA and MHET using engineered PETase S238A in **real human serum at 37 °C**,
-quantified by HPLC, with no effect on cell viability. They propose serum
-treatment for microplastic clearance, delivered via erythrocyte-encapsulated
-enzyme. Their substrate was amorphous.
+**Physiological-condition degradation is demonstrated, twice.** Lopez-Lorenzo,
+Hueting, Bosshard & Syrén (*Faraday Discuss.* 2024, **252**:387–402, doi
+10.1039/d4fd00014e) depolymerised PET particles to TPA and MHET using engineered
+PETase S238A in **real human serum at 37 °C**, quantified by HPLC, with no effect
+on cell viability. They propose serum treatment for microplastic clearance via
+erythrocyte-encapsulated enzyme. Their substrate was amorphous.
+
+Wang *et al.* (*Adv. Sci.* 2026, doi 10.1002/advs.77163) went further: an
+AI-mined, engineered PETase (AhPETaseM1) stable for 20+ days, degrading
+post-consumer PET microplastics at 37 °C and pH 7.4, and **measurably reducing
+their cytotoxicity in human cells** — BEAS-2B viability 74.6% → 110.6%, Caco-2
+69.8% → 95.2%. This is the closest published work to the proposal below, and it
+is worth being explicit about the four things that separate them:
+
+| | Wang *et al.* 2026 | This proposal |
+|---|---|---|
+| Enzyme location | **extracellular**, added to medium | **intracellular**, encapsulated in lysosomes |
+| Substrate | one type, TFA-reprecipitated | **crystallinity ladder**, DSC on each batch |
+| Crystallinity | acknowledged, not measured | **the measured variable** |
+| Cells | BEAS-2B, Caco-2 | **macrophages** |
+
+Their result makes the question more urgent, not less. An extracellular enzyme
+with free access to a particle surface is the *favourable* geometry; the
+encapsulated intracellular case is the unfavourable one, and it is the one being
+proposed for therapy.
 
 **TPA can be measured.** Several ways: HPLC against a TPA standard (above); a
 CAR/LuxAB bioluminescence cascade (*iScience* 2022); a TphR transcription-factor
@@ -95,11 +140,20 @@ Three things are missing, and they intersect exactly at the question above:
 
 1. **No crystallinity series has been run against encapsulated or intracellular
    enzyme.** Every crystallinity study uses free enzyme or surface display, on
-   bulk PET, in buffer.
-2. **Every genetically encoded TPA sensor is in *E. coli*.** None has been
-   expressed in a mammalian cell. TPAsense is characterised as purified protein.
-3. **True-to-life particles have never been combined with a degradation system.**
-   They go into cells for toxicology and stop there.
+   bulk PET, in buffer. Wang *et al.* is the closest and is extracellular, with
+   one substrate.
+2. **Every genetically encoded TPA sensor is in *E. coli*.** The TphR
+   transcription-factor sensor, the CAR/LuxAB cascade and a newer PobR-based
+   sensor (*J. Biol. Eng.* 2026) are all bacterial. TPAsense is characterised as
+   purified protein. **None has been expressed in a mammalian cell.**
+3. **Mechanically derived particles have not been combined with any degradation
+   system.** ⚠️ *Corrected 2026-09-20 — an earlier draft said "true-to-life
+   particles have never been combined with a degradation system", which Wang
+   et al. falsifies if their particles count as true-to-life.* They do not
+   quite: theirs were dissolved in TFA and reprecipitated. The genuinely
+   mechanical particles used in toxicology (cryomilled, THP-1 monocytes) still
+   have no enzyme added, and the enzyme studies still use solvent-processed
+   substrate. The two literatures have not met.
 
 Point 1 is the science. Points 2 and 3 are why nobody has done point 1.
 
@@ -341,6 +395,13 @@ disclosure is worth making promptly rather than in four months.*
 >
 > 2. Is anything filed on TPAsense? The preprint is CC-BY-NC-ND and I found no
 >    patent, but I would rather ask than assume.
+>
+> I should add that I re-checked the literature on 2026-09-20 before writing:
+> the nearest work I can find to what I am proposing is Wang et al.
+> (*Adv. Sci.* 2026, doi 10.1002/advs.77163), which is extracellular, and I
+> still find no genetically encoded terephthalate sensor expressed in a
+> mammalian cell. If you know of one, I would rather hear it from you than
+> find out later.
 >
 > Happy to send the annotation or the design if either is useful. Either way,
 > thank you for putting the full sequences in the supplement — it is rarer than
