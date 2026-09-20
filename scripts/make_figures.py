@@ -19,6 +19,12 @@ ACCENT, NEUTRAL, MUTED, GREEN = "#C8102E", "#5B7C99", "#C4C8CE", "#1F8A5F"
 M = 0.055                      # left margin for title / subtitle / source
 OUT = "figures/"
 
+# Journal mode. The narrative title/subtitle/source banner is presentation
+# styling; in a manuscript that text belongs in the caption, and the preprint's
+# figure-legends section already carries it. --plain drops the banner, reclaims
+# the vertical space, and writes to figures/plain/.
+PLAIN = False
+
 plt.rcParams.update({
     "font.family": "DejaVu Sans", "figure.dpi": 200, "savefig.dpi": 200,
     "axes.spines.top": False, "axes.spines.right": False,
@@ -30,6 +36,13 @@ plt.rcParams.update({
 
 def frame(w, h, title, subtitle, source, rect):
     """rect = [left, bottom, width, height] for the axes, in figure fractions."""
+    if PLAIN:
+        # Drop ~1.9 in of banner, keep the bottom margin at its absolute size
+        # (x-label and legends live there), and let the axes fill upward.
+        h_plain = h - 1.9
+        bottom = rect[1] * h / h_plain
+        fig = plt.figure(figsize=(w, h_plain), facecolor="white")
+        return fig, fig.add_axes([rect[0], bottom, rect[2], 0.955 - bottom])
     fig = plt.figure(figsize=(w, h), facecolor="white")
     fig.text(M, 0.965, title, fontsize=18, fontweight="bold", color=INK,
              va="top", ha="left", linespacing=1.28)
@@ -215,6 +228,13 @@ def fig03():
 
 # ------------------------------------------------------- 04  two-state ----
 def fig04():
+    if PLAIN:
+        fig = plt.figure(figsize=(8.6, 4.5), facecolor="white")
+        ax = fig.add_axes([0.135, 0.165, 0.70, 0.75])
+        _fig04_axes(ax)
+        fig.savefig(OUT + "04_esmfold_two_state.png", facecolor="white")
+        plt.close(fig)
+        return
     fig = plt.figure(figsize=(8.6, 6.4), facecolor="white")
     fig.text(M, 0.965, "The structure predictor did not fail.\nIt predicted the wrong state, accurately",
              fontsize=18, fontweight="bold", color=INK, va="top", ha="left", linespacing=1.28)
@@ -230,6 +250,12 @@ def fig04():
              fontsize=8.5, color=SRC, va="center", ha="left", linespacing=1.45)
 
     ax = fig.add_axes([0.135, 0.165, 0.70, 0.435])
+    _fig04_axes(ax)
+    fig.savefig(OUT + "04_esmfold_two_state.png", facecolor="white")
+    plt.close(fig)
+
+
+def _fig04_axes(ax):
     ax.bar([0, 1], [4.014, 1.02], width=.42, color=[ACCENT, GREEN], zorder=3)
     ax.errorbar([1], [1.005], yerr=[[0.085], [0.085]], fmt="none", ecolor=INK,
                 capsize=6, lw=1.5, zorder=4)
@@ -239,8 +265,12 @@ def fig04():
     ax.text(1.36, 2.0, "2 A - the usual\n'same structure' line", ha="left", va="center",
             fontsize=9.5, color=SRC, linespacing=1.4)
     ax.set_xticks([0, 1])
-    ax.set_xticklabels(["vs CLOSED\nthe state I needed", "vs OPEN\nthe empty form"],
-                       fontsize=11.5, fontweight="bold", color=INK, linespacing=1.6)
+    # First-person tick labels are presentation voice INSIDE the plot -- the
+    # banner guard does not catch them. Neutralise for the manuscript set.
+    ax.set_xticklabels(
+        ["vs CLOSED\n(7NDS, holo)", "vs OPEN\n(7NDR, apo)"] if PLAIN else
+        ["vs CLOSED\nthe state I needed", "vs OPEN\nthe empty form"],
+        fontsize=11.5, fontweight="bold", color=INK, linespacing=1.6)
     ax.set_ylim(0, 4.75)
     ax.set_xlim(-0.55, 2.30)
     ax.set_yticks([0, 1, 2, 3, 4])
@@ -251,8 +281,6 @@ def fig04():
     ax.set_axisbelow(True)
     ax.spines["bottom"].set_visible(False)
     ax.spines["left"].set_color("#D5D8DD")
-    fig.savefig(OUT + "04_esmfold_two_state.png", facecolor="white")
-    plt.close(fig)
 
 
 # ------------------------------------------------- 05  conformer control ----
@@ -348,7 +376,11 @@ def fig05():
 
 
 if __name__ == "__main__":
+    import sys
+    if "--plain" in sys.argv:
+        PLAIN = True
+        OUT = "figures/plain/"
     os.makedirs(OUT, exist_ok=True)
     for f in (fig01, fig02, fig03, fig04, fig05):
         f()
-        print("wrote", f.__name__)
+        print("wrote", f.__name__, "->", OUT)

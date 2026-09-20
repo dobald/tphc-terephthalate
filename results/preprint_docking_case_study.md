@@ -5,8 +5,8 @@ Independent researcher · dnldphan@gmail.com · ORCID [pending]
 
 *Preprint draft, 2026-09-05. Target venue: bioRxiv (biophysics / bioinformatics).*
 *Complete draft. Outstanding before submission: ORCID registration; notify
-Gautom et al.; convert the five figures from presentation styling to
-conventional captions.*
+Gautom et al. Figures are in `figures/plain/` (manuscript set, no narrative
+titles — the captions below carry that text).*
 
 ---
 
@@ -590,8 +590,15 @@ python -m scripts.scoring_crosscheck   # cross-function comparison
 python -m scripts.power_audit          # p-values, CIs, jackknife, permutation
 python -m scripts.conformer_control    # open/apo conformer control
 python -m scripts.esmfold_analysis     # two-state comparison
-python -m scripts.make_figures         # Figures 1-4
+python -m scripts.make_figures --plain # Figures 1-5, manuscript set
+python -m scripts.make_figures         # same data, presentation styling
 ```
+
+**Two figure sets, same data.** `--plain` writes `figures/plain/`, the
+manuscript set: no narrative title, subtitle or source banner, and neutral
+axis labels. Without the flag the script writes `figures/`, which carries
+presentation styling used for a public summary of this work. Only the
+surrounding text differs; every plotted value is identical.
 
 **Figure provenance.** Figures 1 and 2 are generated directly from
 `week3_kd_benchmark.csv` and `week3_wt_baseline_flex.csv`. Figures 3 and 4

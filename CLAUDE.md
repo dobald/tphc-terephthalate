@@ -533,6 +533,51 @@ polymer** — identity and mass only) or Raman/FTIR (blind below ~1 µm, no mass
 Workflow: ~500 mg tissue → KOH digest → **1–2 mg pellet**. DSC/XRD need mg of
 clean single polymer — orders of magnitude more than anyone recovers.
 
+**4h. SWEEP RE-RUN 2026-09-20 -- THE 2026-09-05 SWEEP MISSED A PAPER.**
+Two papers change the picture, and both were findable on 2026-09-05. ~10 queries
+was not enough. **The lesson is not "search once" -- it is "search again before
+you send."**
+
+**4h-i. Wang et al., *Adv. Sci.* 2026, doi 10.1002/advs.77163 (online 18 Aug
+2026) -- the closest published work to our pitch, and we missed it.**
+AI-mined engineered PETase (AhPETaseM1), stable 20+ days, degrades post-consumer
+PET microplastics at **37 C / pH 7.4**, and **reduces their cytotoxicity in human
+cells** (BEAS-2B 74.6 -> 110.6%, Caco-2 69.8 -> 95.2%). UPLC for TPA/MHET; no
+biosensor.
+- **OUR QUESTION SURVIVES -- it is EXTRACELLULAR** (enzyme added to the medium),
+  one substrate, no crystallinity ladder, no macrophages. Extracellular enzyme
+  with free surface access is the FAVOURABLE geometry; encapsulated-in-lysosome
+  is the unfavourable one, and that is the configuration proposed for therapy.
+- **IT STRENGTHENS THE CORE ARGUMENT.** Their "post-consumer" particles were
+  **dissolved in 90% TFA and reprecipitated**, and they say so: *"the TFA
+  treatment could reduce crystallinity (physical change) ... but it preserves
+  the integrity of the main-chain ester bonds."* The concern is stated in the
+  authors' own words and then never measured. **Two independent papers, two
+  solvents (HFIP, TFA), the same unquantified variable under the central
+  claim.** That is a field default, not one group's oversight.
+
+**4h-ii. Di Pede-Mattatelli et al., *J. Phys. Chem. Lett.* 2026, 17:5069, doi
+10.1021/acs.jpclett.6c00308 -- gives the pitch a mechanism and a number.**
+Enhanced-sampling MD (wt-MTD + HREX/REST2): crystalline PET imposes a
+**~25-30 kJ/mol** penalty on forming a catalytically competent complex, about a
+**24,000-fold** drop in productive configurations, gated by **Trp185**
+conformation. Purely computational, free enzyme, no cells, no biosensor.
+-> Cite it: it converts the proposal from an open-ended survey into a test of a
+specific, physics-based prediction.
+
+**4h-iii. CORRECTED GAP CLAIM.** The pitch said *"true-to-life particles have
+never been combined with a degradation system."* **Wang et al. falsifies that as
+written.** Corrected in place: mechanically derived particles (cryomilled, used
+in THP-1 toxicology) still have no enzyme added, and enzyme studies still use
+solvent-processed substrate. The two literatures have not met -- say it that
+way, not the old way.
+
+**4h-iv. STILL TRUE after re-checking:** no genetically encoded TPA sensor in any
+mammalian cell (TphR, CAR/LuxAB, and a newer **PobR** sensor, *J. Biol. Eng.*
+2026, are all bacterial); TPAsense is still bioRxiv-only with no journal version;
+no crystallinity series against encapsulated or intracellular enzyme; macrophages
+still unused for degradation.
+
 **4g. PROCESS NOTE.** This sweep cost two claims and retired a pitch. It is the
 first time searching *narrowed* a framing instead of killing it. "No prior art
 found" ≠ "no prior art exists" — ~10 queries is not a systematic review.
@@ -867,7 +912,7 @@ tphc-project/
 │   ├── scoring_crosscheck.py    vina vs vinardo, scale-invariant metrics ★
 │   ├── power_audit.py           p-values, CIs, jackknife, permutation baseline ★
 │   ├── conformer_control.py     open/apo 7NDR control vs closed 7NDS ★
-│   ├── make_figures.py          Figures 1-4 for the preprint ★
+│   ├── make_figures.py          Figures 1-5; --plain = manuscript set ★
 │   ├── sensor_design.py         TPAsense annotation + mammalian construct ★
 │   └── sensor_pka_test.py       pKa robustness: the decision is pKa-free ★
 ├── results/
