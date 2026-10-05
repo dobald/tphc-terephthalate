@@ -178,6 +178,29 @@ transcriptional biosensor from another group — see
 
 ---
 
+## Licence and third-party material
+
+Dual-licensed, see [`LICENSE`](LICENSE):
+
+| | |
+|---|---|
+| `scripts/` | **MIT** -- reuse the pipeline freely |
+| `results/`, `figures/`, docs | **CC BY 4.0** -- attribution required |
+
+**Third-party material is not covered by either.** Experimental values are
+cited in place and belong to their original authors -- in particular the
+61-compound DSF/ITC screen and the 7NDS / 7NDR structures (Gautom et al.,
+*Nat. Commun.* 2021, 12:6244).
+
+**TPAsense sequence files are deliberately not distributed here.** They are the
+work of Scherer et al. (bioRxiv 2026, CC BY-NC-ND) and are withheld rather than
+republished. `scripts/sensor_design.py` needs them; see
+[`data/README_tpasense_sequences.md`](data/README_tpasense_sequences.md) to
+regenerate them from the public source in a few minutes, with a built-in check
+that your extraction is correct.
+
+---
+
 ## Contact
 
 Donald Phan — dnldphan@gmail.com

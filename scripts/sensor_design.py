@@ -26,6 +26,11 @@ ARCHITECTURE ESTABLISHED HERE (differs from our earlier assumption):
     TPAsense2/3.x His6-TEV-mScarlet3-TphC(N)-L1-sf-cpGFP-L2-TphC(C)
 mScarlet3 REPLACES the SUMO solubility tag; it is not appended to it.
 
+NOTE ON DATA: data/tpasense_variants.fasta is NOT distributed with this
+repository -- it carries third-party sequence from a CC BY-NC-ND preprint.
+See data/README_tpasense_sequences.md to regenerate it in a few minutes from
+the public source. --annotate validates that your extraction is correct.
+
 Usage:
     python -m scripts.sensor_design --annotate     # domain map + validation
     python -m scripts.sensor_design --design       # mammalian construct

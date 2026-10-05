@@ -60,3 +60,7 @@ env/
 
 # Local Claude Code settings
 .claude/
+
+# Third-party sequence data -- see data/README_tpasense_sequences.md
+data/tpasense_variants.fasta
+results/mammalian_tpa_sensor.fasta
