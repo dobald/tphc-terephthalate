@@ -51,6 +51,24 @@ AA_3TO1 = {
 # Published facts used as independent checks on the derived boundaries.
 HIS_TEV = "MGSSHHHHHHGSGENLYFQS"          # vector tag; also present in 7NDS
 PAPER_INSERTION_SITE = 283                 # V283 in Gautom/paper numbering
+
+# TEV recognises ENLYFQ and cleaves between Q and S:
+#     MGSSHHHHHHGSGENLYFQ | S DSTEAVIKEF...
+# The Ser is the P1' residue -- it belongs to the DOWNSTREAM product, so the
+# mature protein the authors characterised begins S-DSTEAVIKEF..., NOT
+# D-STEAVIKEF.... HIS_TEV above is the full 20-residue vector tag and therefore
+# swallows that Ser; the construct must add it back.
+#
+# WHY IT MATTERS (neither option is a degron; the argument is experimental):
+#   M + S + payload -> residue 2 is Ser, which is small, so MetAP REMOVES the
+#     initiator Met and the mature protein is exactly S-DSTEA... -- the same
+#     polypeptide characterised at Kd 203 nM, dF/F0 +3.15, Tm 62 C.
+#   M + payload     -> residue 2 is Asp, too large for MetAP, so Met is RETAINED
+#     and the protein differs from the characterised one by a residue, forever.
+# The difference is very likely harmless, but it is an uncontrolled variable
+# that could not be separated from "mammalian context" if the construct
+# underperformed. One codon buys its removal.
+TEV_SCAR = "S"
 PAPER_LINKERS = {                          # Table 1, single-letter code
     "TPAsense1":   ("PP", "PP"),
     "TPAsense2":   ("PP", "PP"),
@@ -260,7 +278,12 @@ def design():
     payload = (r["n_partner"] + r["tphc_n"] + r["l1"] + r["cpgfp"]
                + r["l2"] + r["tphc_c"])
     assert seqs["TPAsense3.2"].endswith(payload), "payload reconstruction failed"
-    protein = payload if payload.startswith("M") else "M" + payload
+
+    # The published tag ends in the TEV P1' Ser, which is part of the mature
+    # protein rather than the tag. Restore it, then add the initiator Met.
+    assert HIS_TEV[-1] == TEV_SCAR, "HIS_TEV does not end in the expected TEV scar"
+    mature = TEV_SCAR + payload          # exactly the post-TEV polypeptide
+    protein = "M" + mature
 
     print("\n  REMOVED  His6-TEV tag (%d aa) -- bacterial purification only;" % len(HIS_TEV))
     print("           an intracellular sensor needs neither IMAC nor a TEV site.")
@@ -268,6 +291,10 @@ def design():
     print("           protein, ESSENTIAL in transfected cells, where per-cell")
     print("           expression varies by orders of magnitude.")
     print("  KEPT     PROSS-stabilised TphC, both linkers (RI / EN), sf-cpGFP.")
+    print("  RESTORED the TEV P1' Ser (%s) -- part of the mature protein, not the"
+          % TEV_SCAR)
+    print("           tag. MetAP then removes the initiator Met, so the mature")
+    print("           product is the exact characterised polypeptide.")
     print("  ADDED    initiator Met + Kozak (%s) + stop codon." % KOZAK)
 
     kda = len(protein) * 110 / 1000.0
@@ -334,8 +361,10 @@ def verify():
          tr.endswith("*") and tr.count("*") == 1),
         ("translation reproduces the designed protein",
          tr.rstrip("*") == prot),
-        ("protein is TPAsense3.2 minus His6-TEV tag, plus initiator Met",
-         prot[1:] == orig[len(HIS_TEV):]),
+        ("protein is Met + the exact post-TEV mature TPAsense3.2 sequence",
+         prot == "M" + orig[len(HIS_TEV) - 1:]),
+        ("TEV P1' Ser restored at position 2 (MetAP will expose it)",
+         prot[1] == TEV_SCAR),
         ("linkers RI / EN retained", "RI" in prot and "EN" in prot),
         ("CDS length is a whole number of codons", len(cds) % 3 == 0),
         ("GC between 45 and 62 per cent",
